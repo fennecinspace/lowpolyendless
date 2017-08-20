@@ -10,25 +10,25 @@ public class CarMover : MonoBehaviour {
 
     void Update() {
         UpdateMeshPos(); // Rotating the wheels
+        
     }
 
     void FixedUpdate() {
-        steerCar(); // going to steer the car
+        moveCar(); // going to steer the car and move it
     }
 
 
-    void steerCar() {
+    void moveCar() {
         float steering = Input.GetAxis("Horizontal") * 45f;
         float accelerate = Input.GetAxis("Vertical") * maxTorque;
 
         wheelColliders[0].steerAngle = steering;
         wheelColliders[1].steerAngle = steering;
 
-        for (int i = 0; i < 4; i++) {
-            wheelColliders[i].motorTorque = accelerate;
-        }
-    }
+        wheelColliders[2].motorTorque = accelerate;
+        wheelColliders[3].motorTorque = accelerate;
 
+    }
 
     void UpdateMeshPos() {
         for (int i = 0; i < 4; i++) { 
@@ -40,4 +40,15 @@ public class CarMover : MonoBehaviour {
             wheelMeshes[i].rotation = quat;
         }
     }
+    /*
+    void calcCenterOfMass() {
+        Rigidbody Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>();
+        Debug.Log(Player.centerOfMass);
+    }
+
+    void setCenterOfMass() {
+        Rigidbody Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>();
+        Player.centerOfMass = new Vector3(0f, 0f, 0f);
+    }
+    */
 }
