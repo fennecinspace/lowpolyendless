@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
     private Rigidbody Player;
-    public float limit = 5.5f;
-    public float speed = 800;
-    public float changingLaneSpeed = 700;
-    public float moveForward = 1, leftAndRight = 1;
+    private Transform Wheels;
+    public float limit = 4.5f;
+    public float speed = 800f;
+    public float wheelRotationDegree = 25f;
+    public float meshRotationSpeed = 10f;
+    public float changingLaneSpeed = 700f;
+    public float moveForward = 1f, leftAndRight = 1f;
     public float upAndDown = 0.72f;
+
 
     void Start () {
         Player = GetComponent<Rigidbody>();
-	}
+        Wheels = this.gameObject.transform.GetChild(1);
+
+    }
 
     void FixedUpdate() {
         CarMover(); // will move the car l&r and forward
@@ -27,20 +33,65 @@ public class PlayerController : MonoBehaviour {
         movement.x *= changingLaneSpeed;
         movement.z *= speed;
         Player.velocity = movement * Time.deltaTime; // moving the player and using dt to smooth transition 
-
+        // will limit pos to a certain interval [-limit,limit]
         Player.position = new Vector3(Mathf.Clamp(Player.position.x, -limit, limit), upAndDown, Player.position.z);
-        Player.transform.rotation = Quaternion.identity;
     }
 
     void MeshUpdater() {
+        //Rotating the Wheels in relation wiht speed
+        for (int i = 0 ; i < 4 ; i++)
+            Wheels.GetChild(i).Rotate(Time.deltaTime * speed * 3, 0, 0);
 
+        // Updating the Body to move left and right or stay idle
+        if (Input.GetButton("Horizontal") && gameObject.GetComponent<CollisionManager>().isColliding == false ) {
+            if (Input.GetAxis("Horizontal") > 0) {
+                // this will rotate the body to the right
+                this.gameObject.transform.GetChild(0).localRotation = 
+                    Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(-1.449f, 0.122f, 2.759f), Time.deltaTime * meshRotationSpeed);
+                Player.transform.rotation = 
+                    Quaternion.Lerp(Player.transform.rotation, Quaternion.Euler(0f, 3f, 0f), Time.deltaTime * meshRotationSpeed);
+                // this will rotate the wheels to the right
+                Wheels.GetChild(0).localRotation =
+                    Quaternion.Lerp(Wheels.GetChild(0).localRotation, Quaternion.Euler(0f, wheelRotationDegree, 0f), Time.deltaTime * meshRotationSpeed);
+                Wheels.GetChild(1).localRotation =
+                    Quaternion.Lerp(Wheels.GetChild(1).localRotation, Quaternion.Euler(0f, wheelRotationDegree, 0f), Time.deltaTime * meshRotationSpeed);
+
+            }
+            else if (Input.GetAxis("Horizontal") < 0) {
+                // this will rotate the body to the left
+                this.gameObject.transform.GetChild(0).localRotation = 
+                    Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(-1.449f, 0.122f, -2.759f), Time.deltaTime * meshRotationSpeed);
+                Player.transform.rotation = 
+                    Quaternion.Lerp(Player.transform.rotation, Quaternion.Euler(0f, -3f, 0f), Time.deltaTime * meshRotationSpeed);
+                // this will rotate the wheels to the left
+                Wheels.GetChild(0).localRotation =
+                    Quaternion.Lerp(Wheels.GetChild(0).localRotation, Quaternion.Euler(0f, -wheelRotationDegree, 0f), Time.deltaTime * meshRotationSpeed);
+                Wheels.GetChild(1).localRotation =
+                    Quaternion.Lerp(Wheels.GetChild(1).localRotation, Quaternion.Euler(0f, -wheelRotationDegree, 0f), Time.deltaTime * meshRotationSpeed);
+            }
+
+        }
+        else { // when the body is idle
+            this.gameObject.transform.GetChild(0).localRotation = 
+                Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+            Player.transform.rotation = 
+                Quaternion.Lerp(Player.transform.rotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+            Wheels.GetChild(0).localRotation =
+                Quaternion.Lerp(Wheels.GetChild(0).rotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+            Wheels.GetChild(1).localRotation =
+                Quaternion.Lerp(Wheels.GetChild(1).rotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+        }
+        /* Player.transform will rotate the car body left and right 
+         and gameObject.transform.GetChild(0).localRotation 
+         will rotate the body without the wheels */
     }
 
     void SpeedManager() {
-        if (gameObject.GetComponent<CollisionManager>().isColliding == true 
-            && gameObject.GetComponent<CollisionManager>().colliderType == false && speed > 800 )
-                speed -= Time.deltaTime * 200;
+        if (gameObject.GetComponent<CollisionManager>().isColliding == true
+            && gameObject.GetComponent<CollisionManager>().colliderType == false && speed > 800)
+            speed -= Time.deltaTime * 200;
         else if (speed < 2100)  // will increase speed by time 
-                speed += Time.deltaTime * 50;
-    } 
+            speed += Time.deltaTime * 50;
+    }
+
 }
