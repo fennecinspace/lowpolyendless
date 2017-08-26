@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour {
     private Rigidbody Player;
     public float limit = 5.5f;
     public float speed = 800;
+    public float changingLaneSpeed = 700;
     public float moveForward = 1, leftAndRight = 1;
     public float upAndDown = 0.72f;
 
@@ -23,7 +24,7 @@ public class PlayerController : MonoBehaviour {
     void CarMover() {
         float moveHorizontal = Input.GetAxis("Horizontal") * leftAndRight;
         Vector3 movement = new Vector3(moveHorizontal, upAndDown, moveForward); // get axis will smpoth left and right
-        movement.x *= speed;
+        movement.x *= changingLaneSpeed;
         movement.z *= speed;
         Player.velocity = movement * Time.deltaTime; // moving the player and using dt to smooth transition 
 
@@ -39,7 +40,7 @@ public class PlayerController : MonoBehaviour {
         if (gameObject.GetComponent<CollisionManager>().isColliding == true 
             && gameObject.GetComponent<CollisionManager>().colliderType == false && speed > 800 )
                 speed -= Time.deltaTime * 200;
-        else if (speed < 2100) // will increase speed by time
+        else if (speed < 2100)  // will increase speed by time 
                 speed += Time.deltaTime * 50;
     } 
 }
