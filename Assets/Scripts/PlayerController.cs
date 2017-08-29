@@ -45,29 +45,26 @@ public class PlayerController : MonoBehaviour {
         // Updating the Body to move left and right or stay idle
         if (Input.GetButton("Horizontal") && gameObject.GetComponent<CollisionManager>().isColliding == false ) {
             if (Input.GetAxis("Horizontal") > 0) {
-                // this will rotate the body to the right
+                // this will rotate the body to the right (previous value is 2.759f)
                 this.gameObject.transform.GetChild(0).localRotation = 
-                    Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(-1.449f, 0.122f, 2.759f), Time.deltaTime * meshRotationSpeed);
+                    Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(-1.449f, 0.122f, 1.5f), Time.deltaTime * meshRotationSpeed);
                 Player.transform.rotation = 
                     Quaternion.Lerp(Player.transform.rotation, Quaternion.Euler(0f, 3f, 0f), Time.deltaTime * meshRotationSpeed);
                 // this will rotate the wheels to the right
-                Wheels.GetChild(0).localRotation =
-                    Quaternion.Lerp(Wheels.GetChild(0).localRotation, Quaternion.Euler(0f, wheelRotationDegree, 0f), Time.deltaTime * meshRotationSpeed);
-                Wheels.GetChild(1).localRotation =
-                    Quaternion.Lerp(Wheels.GetChild(1).localRotation, Quaternion.Euler(0f, wheelRotationDegree, 0f), Time.deltaTime * meshRotationSpeed);
-
+                for (int i = 0; i < 2; i++)
+                    Wheels.GetChild(i).localRotation =
+                        Quaternion.Lerp(Wheels.GetChild(i).localRotation, Quaternion.Euler(0f, wheelRotationDegree, 0f), Time.deltaTime * meshRotationSpeed);
             }
             else if (Input.GetAxis("Horizontal") < 0) {
-                // this will rotate the body to the left
+                // this will rotate the body to the left (previous value is -2.759f)
                 this.gameObject.transform.GetChild(0).localRotation = 
-                    Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(-1.449f, 0.122f, -2.759f), Time.deltaTime * meshRotationSpeed);
+                    Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(-1.449f, 0.122f, -1.5f), Time.deltaTime * meshRotationSpeed);
                 Player.transform.rotation = 
                     Quaternion.Lerp(Player.transform.rotation, Quaternion.Euler(0f, -3f, 0f), Time.deltaTime * meshRotationSpeed);
                 // this will rotate the wheels to the left
-                Wheels.GetChild(0).localRotation =
-                    Quaternion.Lerp(Wheels.GetChild(0).localRotation, Quaternion.Euler(0f, -wheelRotationDegree, 0f), Time.deltaTime * meshRotationSpeed);
-                Wheels.GetChild(1).localRotation =
-                    Quaternion.Lerp(Wheels.GetChild(1).localRotation, Quaternion.Euler(0f, -wheelRotationDegree, 0f), Time.deltaTime * meshRotationSpeed);
+                for (int i = 0; i < 2; i++)
+                    Wheels.GetChild(i).localRotation =
+                        Quaternion.Lerp(Wheels.GetChild(i).localRotation, Quaternion.Euler(0f, -wheelRotationDegree, 0f), Time.deltaTime * meshRotationSpeed);
             }
 
         }
