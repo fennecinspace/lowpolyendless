@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class GroundPlayerController : MonoBehaviour {
     private Rigidbody Player;
     private Transform Wheels;
     public float limit = 4.5f;
