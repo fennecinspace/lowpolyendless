@@ -141,7 +141,7 @@ PlayerSettings:
   targetPixelDensity: 0
   resolutionScalingMode: 0
   applicationIdentifier:
-    Android: com.Company.ProductName
+    Android: com.freesoul.lowpolyendless
     Standalone: unity.DefaultCompany.lowpolyendlessgame
     Tizen: com.Company.ProductName
     iOS: com.Company.ProductName

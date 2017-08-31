@@ -117,7 +117,8 @@ public class ForestLevelSpawner : MonoBehaviour {
 
     bool VerifyEmptySpace(Vector3 pos) { // takes pos for instantiation 
         pos.y += 50; // adds to y pos to raycast from above the pos
-        Ray ray = new Ray(pos, Vector3.down); // raycasting 
+        Ray ray = new Ray(pos, Vector3.down); // raycasting
+        //Debug.Log("Raycasted"); 
         return Physics.Raycast(ray); // returning -> true for "collider found" ## -> false for "no collider found"  
     }
 

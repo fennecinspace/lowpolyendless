@@ -56,7 +56,7 @@ MonoBehaviour:
   numberOfStartTiles: 3
   numberOfTilesOnScreen: 4
   numberOfTrees: 200
-  roadSideTreeNumber: 3
+  roadSideTreeNumber: 2
   Trees:
   - {fileID: 1153590077037900, guid: c4da0ad26fc7e614792bd7a61e0fe3ab, type: 2}
   - {fileID: 1579048548212056, guid: 6c1f6f2bd1419034398b4322cbcc00c0, type: 2}

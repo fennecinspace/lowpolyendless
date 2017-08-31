@@ -22,9 +22,9 @@ public class GroundPlayerController : MonoBehaviour {
 
     void FixedUpdate() {
         CarMover(); // will move the car l&r and forward
-        MeshUpdater(); // will update car Wheels and Car body when changing lanes
         SpeedManager(); // Manages Speed
-        gameObject.GetComponent<CollisionManager>().CollisionDetection(); // is Managing COLLISIONS
+        MeshUpdater(); // will update car Wheels and Car body when changing lanes
+        //gameObject.GetComponent<CollisionManager>().CollisionDetection(); // is Managing COLLISIONS
     }
 
     void CarMover() {
@@ -45,9 +45,9 @@ public class GroundPlayerController : MonoBehaviour {
         // Updating the Body to move left and right or stay idle
         if (Input.GetButton("Horizontal") && gameObject.GetComponent<CollisionManager>().isColliding == false ) {
             if (Input.GetAxis("Horizontal") > 0) {
-                // this will rotate the body to the right (previous value is 2.759f)
+                // this will rotate the body to the right (previous value was  x : -1.449f and z : 2.759f)
                 this.gameObject.transform.GetChild(0).localRotation = 
-                    Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(-1.449f, 0.122f, 1.5f), Time.deltaTime * meshRotationSpeed);
+                    Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(0f, 0.122f, 1.5f), Time.deltaTime * meshRotationSpeed);
                 Player.transform.rotation = 
                     Quaternion.Lerp(Player.transform.rotation, Quaternion.Euler(0f, 3f, 0f), Time.deltaTime * meshRotationSpeed);
                 // this will rotate the wheels to the right
@@ -56,9 +56,9 @@ public class GroundPlayerController : MonoBehaviour {
                         Quaternion.Lerp(Wheels.GetChild(i).localRotation, Quaternion.Euler(0f, wheelRotationDegree, 0f), Time.deltaTime * meshRotationSpeed);
             }
             else if (Input.GetAxis("Horizontal") < 0) {
-                // this will rotate the body to the left (previous value is -2.759f)
+                // this will rotate the body to the left (previous value was  x : -1.449f and z : -2.759f)
                 this.gameObject.transform.GetChild(0).localRotation = 
-                    Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(-1.449f, 0.122f, -1.5f), Time.deltaTime * meshRotationSpeed);
+                    Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(0f, 0.122f, -1.5f), Time.deltaTime * meshRotationSpeed);
                 Player.transform.rotation = 
                     Quaternion.Lerp(Player.transform.rotation, Quaternion.Euler(0f, -3f, 0f), Time.deltaTime * meshRotationSpeed);
                 // this will rotate the wheels to the left
@@ -87,7 +87,7 @@ public class GroundPlayerController : MonoBehaviour {
         if (gameObject.GetComponent<CollisionManager>().isColliding == true
             && gameObject.GetComponent<CollisionManager>().colliderType == false && speed > 800)
             speed -= Time.deltaTime * 200;
-        else if (speed < 2100)  // will increase speed by time 
+        else if (speed < 1500)  // will increase speed by time 
             speed += Time.deltaTime * 50;
     }
 
