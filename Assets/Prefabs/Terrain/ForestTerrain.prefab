@@ -155,7 +155,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4964777164476564}
   m_Layer: 2
-  m_Name: terrain
+  m_Name: ForestTerrain
   m_TagString: LoadedTerrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

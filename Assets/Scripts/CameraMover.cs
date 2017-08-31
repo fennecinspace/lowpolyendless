@@ -10,11 +10,12 @@ public class CameraMover : MonoBehaviour {
     public bool leftAndRight = true;
 
     void Start () {
-        Subject = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        distanceAbove = transform.position.y;
     }
 	
 	void Update () {
+        Subject = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        distanceAbove = transform.position.y;
+
         if (leftAndRight == false)
             myPosition.x = 0f;
         else

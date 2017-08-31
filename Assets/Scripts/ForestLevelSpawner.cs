@@ -17,7 +17,7 @@ public class ForestLevelSpawner : MonoBehaviour {
     private List<GameObject> tilesOnScreen = new List<GameObject>();
 
     [Header("Tree Spawning")]
-    public float numberOfTrees = 100;
+    public float numberOfTrees = 50;
     public float roadSideTreeNumber = 3;
     public GameObject[] Trees = new GameObject[4];
     public GameObject roadSideTree;
