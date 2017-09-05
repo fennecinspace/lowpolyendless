@@ -20,6 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4481212965149448}
   - component: {fileID: 114788276821527470}
+  - component: {fileID: 114196140887552324}
+  - component: {fileID: 114411569462273126}
   m_Layer: 0
   m_Name: Spawn Manager
   m_TagString: Untagged
@@ -40,6 +42,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114196140887552324
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1089522143159678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a7e874b0a093024793758cc01b0b582, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  players:
+  - {fileID: 1403659074439446, guid: f06761ef0e29af148ad1279aa54e54e6, type: 2}
+  playerToInstantiate: 0
+--- !u!114 &114411569462273126
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1089522143159678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9adca5af14b0a246af10f8af08ad0d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  aiMesh:
+  - {fileID: 1868926836929206, guid: c7808e7eda4b23746b161dd6463df759, type: 2}
+  aiOnScreen: 0
+  aiOnScreenLimit: 4
 --- !u!114 &114788276821527470
 MonoBehaviour:
   m_ObjectHideFlags: 1

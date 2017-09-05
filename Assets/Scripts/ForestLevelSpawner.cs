@@ -7,7 +7,7 @@ public class ForestLevelSpawner : MonoBehaviour {
     [Header("Game Objects")]
     public GameObject terrain;
     public GameObject Parent;
-    private Transform Subject;
+    private Transform subject;
 
     [Header("Terrain Tile Spawning")]
     public int numberOfStartTiles = 3;
@@ -28,14 +28,16 @@ public class ForestLevelSpawner : MonoBehaviour {
 
     
     void Start () {
-        Subject = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         for (int i=0; i< numberOfStartTiles; i++)
             SpawnTerrain();
     }
 
     void Update() {
+        if (subject == null) // will find player
+            subject = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+
         DestroyTerrain();
-        if (Subject.position.z > beginSpawn - numberOfStartTiles * terrainLength)
+        if (subject.position.z > beginSpawn - numberOfStartTiles * terrainLength)
             SpawnTerrain();   
     }
 
