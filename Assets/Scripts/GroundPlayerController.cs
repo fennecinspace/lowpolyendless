@@ -71,12 +71,12 @@ public class GroundPlayerController : MonoBehaviour {
         else { // when the body is idle
             this.gameObject.transform.GetChild(0).localRotation = 
                 Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(- 0.001f * speed, 0f, 0f), Time.deltaTime * meshRotationSpeed);
-            Player.transform.rotation = 
-                Quaternion.Lerp(Player.transform.rotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+            Player.transform.localRotation = 
+                Quaternion.Lerp(Player.transform.localRotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
             Wheels.GetChild(0).localRotation =
-                Quaternion.Lerp(Wheels.GetChild(0).rotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+                Quaternion.Lerp(Wheels.GetChild(0).localRotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
             Wheels.GetChild(1).localRotation =
-                Quaternion.Lerp(Wheels.GetChild(1).rotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+                Quaternion.Lerp(Wheels.GetChild(1).localRotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
         }
         /* Player.transform will rotate the car body left and right 
          and gameObject.transform.GetChild(0).localRotation 

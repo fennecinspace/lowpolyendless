@@ -17,7 +17,7 @@ public class CameraMover : MonoBehaviour {
             subject = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
 
         distanceAbove = transform.position.y;
-
+        
         if (leftAndRight == false)
             myPosition.x = 0f;
         else

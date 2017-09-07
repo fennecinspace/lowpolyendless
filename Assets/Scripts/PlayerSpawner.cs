@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerSpawner : MonoBehaviour {
-    public GameObject[] players = new GameObject[1];
-    public int playerToInstantiate = 0;
+    public GameObject[] PlayerMeshes = new GameObject[1];
+    public int meshToInstantiate = 0;
+    public GameObject instantiatedPlayer;
 
 	// Use this for initialization
 	void Start () {
-        Instantiate(players[playerToInstantiate]);
+        instantiatedPlayer = Instantiate(PlayerMeshes[meshToInstantiate]);
+    }
+
+    public GameObject GetPlayer() {
+        return instantiatedPlayer;
     }
 }

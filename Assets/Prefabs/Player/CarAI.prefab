@@ -121,8 +121,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4753285354008892}
-  - component: {fileID: 114974632079628136}
-  - component: {fileID: 114211711362586398}
   - component: {fileID: 54909237061242630}
   m_Layer: 0
   m_Name: CarAI
@@ -463,35 +461,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 8.740606, y: 3.4320762, z: 18.989386}
   m_Center: {x: 0, y: -0.66155547, z: -0.042381052}
---- !u!114 &114211711362586398
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1868926836929206}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f89665a78a219f149815989aa8c5ef74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isColliding: 0
-  colliderType: 0
---- !u!114 &114974632079628136
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1868926836929206}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b2ddfdbd20f556419aad59f3c760c99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  limit: 4.5
-  speed: 800
-  wheelRotationDegree: 25
-  meshRotationSpeed: 10
-  changingLaneSpeed: 700
-  moveForward: 1
-  leftAndRight: 1
-  upAndDown: 0.72

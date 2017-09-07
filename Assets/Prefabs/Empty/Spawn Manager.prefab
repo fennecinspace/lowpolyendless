@@ -53,9 +53,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a7e874b0a093024793758cc01b0b582, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  players:
+  PlayerMeshes:
   - {fileID: 1403659074439446, guid: f06761ef0e29af148ad1279aa54e54e6, type: 2}
-  playerToInstantiate: 0
+  meshToInstantiate: 0
+  instantiatedPlayer: {fileID: 0}
 --- !u!114 &114411569462273126
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -72,6 +73,11 @@ MonoBehaviour:
   - {fileID: 1868926836929206, guid: c7808e7eda4b23746b161dd6463df759, type: 2}
   aiOnScreen: 0
   aiOnScreenLimit: 4
+  existantAis:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &114788276821527470
 MonoBehaviour:
   m_ObjectHideFlags: 1
