@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4431264413661598}
   m_Layer: 0
   m_Name: Wheels
-  m_TagString: Untagged
+  m_TagString: AI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: 114075502694320520}
   m_Layer: 0
   m_Name: CarBodynWC
-  m_TagString: Player
+  m_TagString: AI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -446,7 +446,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isColliding: 0
-  colliderType: 0
 --- !u!114 &114978170389998146
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -466,3 +465,4 @@ MonoBehaviour:
   moveForward: 1
   leftAndRight: 1
   upAndDown: 0.72
+  CollisionChecker: {fileID: 0}

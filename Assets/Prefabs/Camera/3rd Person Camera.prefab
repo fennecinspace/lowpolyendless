@@ -119,7 +119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceBehind: 5
-  distanceAbove: 0
+  distanceAbove: 2.268
   leftAndRight: 1
 --- !u!124 &124245701446501964
 Behaviour:

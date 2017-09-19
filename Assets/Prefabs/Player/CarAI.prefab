@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 65281950362570550}
   m_Layer: 0
   m_Name: Body
-  m_TagString: Player
+  m_TagString: AI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -189,7 +189,7 @@ Transform:
   m_GameObject: {fileID: 1868926836929206}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1.3, y: 0.8, z: -35.65}
-  m_LocalScale: {x: 0.16683263, y: 0.16683261, z: 0.16683261}
+  m_LocalScale: {x: 0.198, y: 0.198, z: 0.198}
   m_Children:
   - {fileID: 4087298128067862}
   - {fileID: 4886117558554526}
@@ -435,7 +435,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 2
 --- !u!65 &65281950362570550
 BoxCollider:

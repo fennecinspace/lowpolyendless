@@ -72,12 +72,9 @@ MonoBehaviour:
   aiMesh:
   - {fileID: 1868926836929206, guid: c7808e7eda4b23746b161dd6463df759, type: 2}
   aiOnScreen: 0
-  aiOnScreenLimit: 4
-  existantAis:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  aiOnScreenLimit: 10
+  existantAis: []
+  boxcastSize: {x: 1.2, y: 0.9, z: 2.65}
 --- !u!114 &114788276821527470
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CollisionManager : MonoBehaviour {
     public bool isColliding = false;
-    public bool colliderType = false;
+    public bool? colliderType = null;
 
     void OnCollisionEnter(Collision col) {
         isColliding = true;
@@ -16,7 +16,7 @@ public class CollisionManager : MonoBehaviour {
 
     void OnCollisionExit(Collision col) {
         isColliding = false;
-        colliderType = false;
+        colliderType = null;
     }
 
     public void CollisionDetection() {
@@ -28,6 +28,6 @@ public class CollisionManager : MonoBehaviour {
                 Debug.Log("notTerrain");
         }
         else
-            Debug.Log("Object isn't Colliding");
+            Debug.Log("Obj isn't colliding");
     }
 }

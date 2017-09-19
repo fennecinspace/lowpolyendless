@@ -5,19 +5,23 @@ using UnityEngine;
 public class GroundPlayerController : MonoBehaviour {
     private Rigidbody Player;
     private Transform Wheels;
-    public float limit = 4.5f;
+    [Header("Data")]
     public float speed = 800f;
+
+    [Header("Limitations")]
+    public float limit = 4.5f;
     public float wheelRotationDegree = 25f;
     public float meshRotationSpeed = 10f;
     public float changingLaneSpeed = 700f;
     public float moveForward = 1f, leftAndRight = 1f;
     public float upAndDown = 0.72f;
 
+    CollisionManager CollisionChecker;
 
     void Start () {
         Player = GetComponent<Rigidbody>();
-        Wheels = this.gameObject.transform.GetChild(1);
-
+        Wheels = transform.GetChild(1);
+        CollisionChecker = GetComponent<CollisionManager>();
     }
 
     void FixedUpdate() {
@@ -38,12 +42,11 @@ public class GroundPlayerController : MonoBehaviour {
     }
 
     void MeshUpdater() {
-        //Rotating the Wheels in relation wiht speed
+        //Rotating the Wheels in relation with speed
         for (int i = 0 ; i < 4 ; i++)
             Wheels.GetChild(i).Rotate(Time.deltaTime * speed * 3, 0, 0);
-
         // Updating the Body to move left and right or stay idle
-        if (Input.GetButton("Horizontal") && gameObject.GetComponent<CollisionManager>().isColliding == false ) {
+        if (Input.GetButton("Horizontal") && CollisionChecker.colliderType != false ) {
             if (Input.GetAxis("Horizontal") > 0) {
                 // this will rotate the body to the right (previous value was  x : -1.449f and z : 2.759f)
                 this.gameObject.transform.GetChild(0).localRotation = 
@@ -71,24 +74,37 @@ public class GroundPlayerController : MonoBehaviour {
         else { // when the body is idle
             this.gameObject.transform.GetChild(0).localRotation = 
                 Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(- 0.001f * speed, 0f, 0f), Time.deltaTime * meshRotationSpeed);
-            Player.transform.localRotation = 
-                Quaternion.Lerp(Player.transform.localRotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
-            Wheels.GetChild(0).localRotation =
-                Quaternion.Lerp(Wheels.GetChild(0).localRotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
-            Wheels.GetChild(1).localRotation =
-                Quaternion.Lerp(Wheels.GetChild(1).localRotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+            Player.transform.rotation = 
+                Quaternion.Lerp(Player.transform.rotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+            for (int i = 0; i < 2; i++)
+                Wheels.GetChild(i).localRotation =
+                    Quaternion.Lerp(Wheels.GetChild(i).localRotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
         }
-        /* Player.transform will rotate the car body left and right 
+        /* Player.transform.rotation will rotate the entire car left and right 
          and gameObject.transform.GetChild(0).localRotation 
          will rotate the body without the wheels */
     }
 
     void SpeedManager() {
-        if (gameObject.GetComponent<CollisionManager>().isColliding == true
-            && gameObject.GetComponent<CollisionManager>().colliderType == false && speed > 800)
-            speed -= Time.deltaTime * 200;
-        else if (speed < 1500)  // will increase speed by time 
-            speed += Time.deltaTime * 50;
+        if (CollisionChecker.isColliding == false) { // when no collision is happening 
+            if (speed < 1500 && speed >= 800)  // will increase speed by time 
+                speed += Time.deltaTime * 50;
+            else if (speed < 800) // will increase speed eapidly when starting under 800
+                speed += Time.deltaTime * 200;
+        }
+        else { // when colliding
+            if (CollisionChecker.colliderType == false && speed > 500) // will decrease speed when coliding with boundries
+                speed -= Time.deltaTime * 200;
+        }
     }
 
+
+    /*
+    add breaks and acceleration inputs.. with mesh update for brake
+    .. and maybe for acceleration not sure .. 
+    maybe just maybe add gear mesh update in certain speeds 
+    remember you're already on second gear so add 3 mesh updates for gear if you decide to add them
+    add mobile inputs
+    ... 
+     */
 }

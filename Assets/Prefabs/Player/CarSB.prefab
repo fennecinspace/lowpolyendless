@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 4125064326449634}
   m_Layer: 0
   m_Name: Wheels
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -437,7 +437,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 2
 --- !u!65 &65255946202088974
 BoxCollider:
@@ -482,6 +482,7 @@ MonoBehaviour:
   moveForward: 1
   leftAndRight: 1
   upAndDown: 0.72
+  CollisionChecker: {fileID: 0}
 --- !u!114 &114746019719234744
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -494,4 +495,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isColliding: 0
-  colliderType: 0

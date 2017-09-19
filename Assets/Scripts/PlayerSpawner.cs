@@ -10,7 +10,9 @@ public class PlayerSpawner : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         instantiatedPlayer = Instantiate(PlayerMeshes[meshToInstantiate]);
+        //Debug.Log(" width is " + instantiatedPlayer.transform.GetChild(0).GetComponent<MeshFilter>().mesh.bounds);
     }
+
 
     public GameObject GetPlayer() {
         return instantiatedPlayer;
