@@ -19,12 +19,10 @@ public class AICarSpawner : MonoBehaviour {
 
     void Start() {
         existantAis = new GameObject[aiOnScreenLimit];
-        if (player == null) {
-            player = GetComponent<PlayerSpawner>().GetPlayer();
-            playerController = player.GetComponent<GroundPlayerController>();
-            playerTransform = player.GetComponent<Transform>();
-            furthestCarPos = playerTransform.position;
-        }
+        player = GetComponent<PlayerSpawner>().GetPlayer();
+        playerController = player.GetComponent<GroundPlayerController>();
+        playerTransform = player.GetComponent<Transform>();
+        furthestCarPos = playerTransform.position;
     }
 
     void Update() {
