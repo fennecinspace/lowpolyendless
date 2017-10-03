@@ -6,7 +6,7 @@ public class AICarSpawner : MonoBehaviour {
     public GameObject player;
     public GameObject[] aiMesh = new GameObject[1]; // the model.fbx for the ai 
     public int aiOnScreen = 0; // number of spawned ai detected by camera (i need to write a function to use camera to detect)
-    public int aiOnScreenLimit = 10;
+    public int aiOnScreenLimit = 20;
     public GameObject[] existantAis;
     public Vector3 boxcastSize = new Vector3(1.2f, 0.9f, 2.65f);
     
@@ -14,7 +14,7 @@ public class AICarSpawner : MonoBehaviour {
     GroundPlayerController playerController; // the player script will be used to get info like speed
     Transform playerTransform; // this will be used to get the pos for the car to instantiate the ai enemies
 
-    public float[] possiblePosesX = new float[4] { -4.45f, 1.5f, 4.45f, -1.5f };
+    public float[] possiblePosesX = new float[4] { -4.45f, 1.50f, 4.45f, -1.50f };
     Vector3 furthestCarPos;
 
     void Start() {
@@ -26,11 +26,10 @@ public class AICarSpawner : MonoBehaviour {
     }
 
     void Update() {
+        GetFurthestCarPos();
         if (playerController.speed > 900 && aiOnScreen < aiOnScreenLimit)
             SpawnAiMesh();
-        GetFurthestCarPos();
         DestroyAiMesh();
-
         //Debug.Log(aiMesh[0].transform.GetChild(0).GetComponent<MeshFilter>().sharedMesh.bounds.size * 0.28f);
     }
     
@@ -38,9 +37,15 @@ public class AICarSpawner : MonoBehaviour {
         Vector3 aiPos = playerTransform.position;
         while (true) {
             aiPos.x = GetRandomPossesX();
-            aiPos.z = furthestCarPos.z + Random.Range(10f, 15f); // will assign the spawing Z-Pos using the pos of the furthest car away and add to it between 10 and 15 units
+            if(aiOnScreen == 0)  
+                aiPos.z = furthestCarPos.z + Random.Range(160f, 200f); // will spawn the first ai really far
+            else
+                aiPos.z = furthestCarPos.z + Random.Range(5f, 10f); // will assign the spawing Z-Pos using the pos of the furthest car away and add to it between 10 and 15 units
             if (!VerifyEmptyBoxSpace(aiPos)) {
-                existantAis[aiOnScreen++] = Instantiate(aiMesh[0], aiPos, aiMesh[0].transform.rotation); // will instantiate the AI
+                existantAis[aiOnScreen] = Instantiate(aiMesh[0], aiPos, aiMesh[0].transform.rotation); // will instantiate the AI
+                existantAis[aiOnScreen].GetComponent<AIController>().playerController = playerController;
+                //Debug.Log(furthestCarPos.z);
+                aiOnScreen++;
                 break;
             }
         }
@@ -56,7 +61,7 @@ public class AICarSpawner : MonoBehaviour {
 
     void DestroyAiMesh() {
         for (int i = 0; i < aiOnScreen; i++) { // check every ai position in the ais on screen array
-            if (existantAis[i].transform.position.z < playerTransform.position.z - 20) { // verify if ai is behind player
+            if (existantAis[i].transform.position.z < playerTransform.position.z - 10) { // verify if ai is behind player
                 Destroy(existantAis[i]); // destory AI
                 existantAis[i] = null; // fill ai pos in array with null 
                 for (int j = i; j < existantAis.Length - 1;) { // loop to move all ais after destoyed one one case behind to fill the first cases of the array
@@ -77,24 +82,35 @@ public class AICarSpawner : MonoBehaviour {
         float randomPosX; // will later store a random pos on x to check if the 2 ai spawned before this one will have that position in that case we will generate another and check again
         while (true) {
             randomPosX = possiblePosesX[Random.Range(0, 4)];
-            if (aiOnScreen > 2) { // added thius ciondition because in the beginning of the game we might have 1 ai on screen or less and that would give us an Index Out Of Bounds Exception
-                if (randomPosX != existantAis[aiOnScreen - 1].transform.position.x && randomPosX != existantAis[aiOnScreen - 2].transform.position.x)
+            if (aiOnScreen > 3) { // added thius ciondition because in the beginning of the game we might have 1 ai on screen or less and that would give us an Index Out Of Bounds Exception
+                if (randomPosX != existantAis[aiOnScreen - 1].transform.position.x && randomPosX != existantAis[aiOnScreen - 3].transform.position.x)
                     return randomPosX;
             }
             else return randomPosX;
         }
     }
-
 }
 
-    
 
 
 
-// (2.4, 1.8, 5.3) = (1.2, 0.9, 2.65) * 2
 
-/*void OnDrawGizmos() {
+// this is for verefying empty space (box = half box) : (2.4, 1.8, 5.3) = (1.2, 0.9, 2.65) * 2
+
+/*
+void OnDrawGizmos() {
 Gizmos.color = new Color(1, 0, 0, 0.5F);
 Gizmos.DrawCube(new Vector3(1.55f, 2, 0), player.transform.GetChild(0).GetComponent<MeshFilter>().mesh.bounds.size * 0.28f);
 Debug.Log(player.transform.GetChild(0).GetComponent<MeshFilter>().mesh.bounds.size * 0.28f);
-}*/
+}
+*/
+
+/*
+// if you add this change condition for spawnAiMesh Call in update from < to <= and add this inside verefy empty in an else with a condition for aiOnScreen < aiOnScreenLimit
+void RepossisionAiMesh(Vector3 aiPos) {
+for (int i = 0; i < aiOnScreen; i++) // check every ai position in the ais on screen array
+    if (existantAis[i].transform.position.z < playerTransform.position.z - 20) { // verify if ai is behind player
+        existantAis[i].transform.position = aiPos;
+    }
+}
+*/
