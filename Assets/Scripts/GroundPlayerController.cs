@@ -7,7 +7,6 @@ public class GroundPlayerController : MonoBehaviour {
     private Transform Wheels;
     [Header("Data")]
     public float speed = 800f;
-
     [Header("Limitations")]
     public float limit = 4.5f;
     public float wheelRotationDegree = 25f;
@@ -16,7 +15,7 @@ public class GroundPlayerController : MonoBehaviour {
     public float moveForward = 1f, leftAndRight = 1f;
     public float upAndDown = 0.72f;
 
-    CollisionManager CollisionChecker;
+    private CollisionManager CollisionChecker;
 
     void Start () {
         Player = GetComponent<Rigidbody>();

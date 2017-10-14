@@ -72,8 +72,8 @@ GameObject:
   - component: {fileID: 4087298128067862}
   - component: {fileID: 33672122462062700}
   - component: {fileID: 23559602751431676}
-  - component: {fileID: 65902476811754364}
   - component: {fileID: 65281950362570550}
+  - component: {fileID: 65149314668116172}
   m_Layer: 0
   m_Name: Body
   m_TagString: AI
@@ -189,7 +189,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1868926836929206}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.3, y: 0.8, z: -35.65}
+  m_LocalPosition: {x: 0.10131673, y: 3.2636719, z: 6757.6357}
   m_LocalScale: {x: 0.1668326, y: 0.1668326, z: 0.1668326}
   m_Children:
   - {fileID: 4087298128067862}
@@ -436,32 +436,32 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 2
+--- !u!65 &65149314668116172
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1441886493715258}
+  m_Material: {fileID: 13400000, guid: 8b6d8db2aea893c488d43c5ec17b36db, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 8.740606, y: 3.6222203, z: 19.075878}
+  m_Center: {x: 0, y: -0.71202666, z: -0.07878637}
 --- !u!65 &65281950362570550
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1441886493715258}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 8b6d8db2aea893c488d43c5ec17b36db, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 8.740606, y: 2.8919082, z: 10.202389}
   m_Center: {x: 0, y: 2.5289392, z: -1.5171776}
---- !u!65 &65902476811754364
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1441886493715258}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 8.740606, y: 3.4320762, z: 18.989386}
-  m_Center: {x: 0, y: -0.66155547, z: -0.042381052}
 --- !u!114 &114502056723227420
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -473,4 +473,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef778766f6bd6454e8b3a625081b4948, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerController: {fileID: 0}
   speed: 0
+  initSpeed: 0
+  aiType: 0
+  halfCarXsize: 0.68
+  halfCarZsize: 1.545
+  forwardProxEnabled: 0
+  backProxEnabled: 0
+  leftProxEnabled: 0
+  rightProxEnabled: 0
+  forwardProxType: 0
+  backProxType: 0
+  leftProxType: 0
+  rightProxType: 0
+  laneChangingEnabled: 0

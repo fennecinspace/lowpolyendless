@@ -26,7 +26,6 @@ public class ForestLevelSpawner : MonoBehaviour {
     public Vector3 colliderCenter = new Vector3(-5.5f,5.0f,0.0f);
     public Vector3 colliderSize = new Vector3(0.1f,10.0f,77.55f);
 
-    
     void Start () {
         for (int i=0; i< numberOfStartTiles; i++)
             SpawnTerrain();
@@ -67,22 +66,22 @@ public class ForestLevelSpawner : MonoBehaviour {
     void SpawnTrees(Transform terrainPos) {
         int x = Random.Range(1, 3); // to decide on left or right side for road trees
         
-        for (int i = 0; i < roadSideTreeNumber; i++) {
+        for (int i = 0; i < roadSideTreeNumber; i++) { // spawn the road side trees
             switch (x) {
                 case 1: {// spawn right side
-                        TreeSide(terrainPos, 7.0f, 8.5f, 150.0f, 210.0f, 0.0f, 0.0f);
+                        TreeSide(terrainPos, 9f, 10f, 150.0f, 210.0f, 0.0f, 0.0f);
                         x = 2;
                         break;
                     }
                 case 2: {// spawn left side
-                        TreeSide(terrainPos, -8.5f, -7.0f, -30.0f, 30.0f, 0.0f, 0.0f);
+                        TreeSide(terrainPos, -10f, -9f, -30.0f, 30.0f, 0.0f, 0.0f);
                         x = 1;
                         break;
                     }
             }
         }
 
-        for (int i = 0; i < numberOfTrees; i++) {
+        for (int i = 0; i < numberOfTrees; i++) { // spawn the forest trees
             // spawn right side
             TreeSide(terrainPos, 7.7f, 37.7f);
             // spawn left side 

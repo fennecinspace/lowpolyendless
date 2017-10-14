@@ -72,7 +72,7 @@ MonoBehaviour:
   aiMesh:
   - {fileID: 1868926836929206, guid: c7808e7eda4b23746b161dd6463df759, type: 2}
   aiOnScreen: 0
-  aiOnScreenLimit: 20
+  aiOnScreenLimit: 15
   existantAis: []
   boxcastSize: {x: 1.2, y: 0.9, z: 2.65}
   possiblePosesX:

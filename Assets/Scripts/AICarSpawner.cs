@@ -9,13 +9,10 @@ public class AICarSpawner : MonoBehaviour {
     public int aiOnScreenLimit = 20;
     public GameObject[] existantAis;
     public Vector3 boxcastSize = new Vector3(1.2f, 0.9f, 2.65f);
-    
-
-    GroundPlayerController playerController; // the player script will be used to get info like speed
-    Transform playerTransform; // this will be used to get the pos for the car to instantiate the ai enemies
-
+    private GroundPlayerController playerController; // the player script will be used to get info like speed
+    private Transform playerTransform; // this will be used to get the pos for the car to instantiate the ai enemies
     public float[] possiblePosesX = new float[4] { -4.45f, 1.50f, 4.45f, -1.50f };
-    Vector3 furthestCarPos;
+    private Vector3 furthestCarPos;
 
     void Start() {
         existantAis = new GameObject[aiOnScreenLimit];
@@ -38,9 +35,9 @@ public class AICarSpawner : MonoBehaviour {
         while (true) {
             aiPos.x = GetRandomPossesX();
             if(aiOnScreen == 0)  
-                aiPos.z = furthestCarPos.z + Random.Range(160f, 200f); // will spawn the first ai really far
+                aiPos.z = furthestCarPos.z + Random.Range(90f, 100f); // will spawn the first ai really far for higer go 160/200
             else
-                aiPos.z = furthestCarPos.z + Random.Range(5f, 10f); // will assign the spawing Z-Pos using the pos of the furthest car away and add to it between 10 and 15 units
+                aiPos.z = furthestCarPos.z + Random.Range(4f, 7f); // will assign the spawing Z-Pos using the pos of the furthest car away and add to it between 10 and 15 units
             if (!VerifyEmptyBoxSpace(aiPos)) {
                 existantAis[aiOnScreen] = Instantiate(aiMesh[0], aiPos, aiMesh[0].transform.rotation); // will instantiate the AI
                 existantAis[aiOnScreen].GetComponent<AIController>().playerController = playerController;
@@ -91,10 +88,6 @@ public class AICarSpawner : MonoBehaviour {
     }
 }
 
-
-
-
-
 // this is for verefying empty space (box = half box) : (2.4, 1.8, 5.3) = (1.2, 0.9, 2.65) * 2
 
 /*
@@ -103,9 +96,7 @@ Gizmos.color = new Color(1, 0, 0, 0.5F);
 Gizmos.DrawCube(new Vector3(1.55f, 2, 0), player.transform.GetChild(0).GetComponent<MeshFilter>().mesh.bounds.size * 0.28f);
 Debug.Log(player.transform.GetChild(0).GetComponent<MeshFilter>().mesh.bounds.size * 0.28f);
 }
-*/
 
-/*
 // if you add this change condition for spawnAiMesh Call in update from < to <= and add this inside verefy empty in an else with a condition for aiOnScreen < aiOnScreenLimit
 void RepossisionAiMesh(Vector3 aiPos) {
 for (int i = 0; i < aiOnScreen; i++) // check every ai position in the ais on screen array
