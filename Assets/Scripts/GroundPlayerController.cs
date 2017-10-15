@@ -94,6 +94,9 @@ public class GroundPlayerController : MonoBehaviour {
         else { // when colliding
             if (CollisionChecker.colliderType == false && speed > 500) // will decrease speed when coliding with boundries
                 speed -= Time.deltaTime * 200;
+            if (CollisionChecker.colliderType == true && CollisionChecker.objectCollidedWith.tag == "AI" && CollisionChecker.objectCollidedWith.GetComponent<AIController>().backProxType == 2 && speed < 1200)
+                // added the backProxType == 2 condition so that the player gets the ai speed only when colliding from the back and not from the sides
+                speed = CollisionChecker.objectCollidedWith.GetComponent<AIController>().speed; // in case of collision with ai at low speed player will gain that ai's speed
         }
     }
 

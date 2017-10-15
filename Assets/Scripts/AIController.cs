@@ -6,12 +6,12 @@ public class AIController : MonoBehaviour {
     [HideInInspector]
     public GroundPlayerController playerController;
     private Rigidbody ai;
-    private float lanePos;
+    private float lanePos; // this will be used to clamp me into my lane .. and i will unclamp when i try to change lanes
 
-    public float speed;
+    public float speed; // this is my realtime speed
     
     [Header("Initial Info")]
-    public float initSpeed; // the ai normal speed
+    public float initSpeed; // the ai initiated speed
     public int aiType; // 3 types
     
     [Header("Car XZ Dimensions")] // for raycasting
@@ -22,12 +22,15 @@ public class AIController : MonoBehaviour {
     public bool forwardProxEnabled;
     public bool backProxEnabled, leftProxEnabled, rightProxEnabled;
     public int forwardProxType, backProxType, leftProxType, rightProxType;
+
+    private float otherAiSpeed; // this will contain the speed of what ever ai is in front of me 
     
     public bool laneChangingEnabled = false;
 
     void Start() {
         ai = gameObject.GetComponent<Rigidbody>();
         lanePos = ai.transform.position.x;
+        otherAiSpeed = initSpeed;
         AiType();
         InitSpeedSetter();
     }
@@ -37,7 +40,7 @@ public class AIController : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        SpeedManager();
+        AiManager();
         AiMover();
     }
 
@@ -47,16 +50,20 @@ public class AIController : MonoBehaviour {
         ai.velocity = mover * Time.deltaTime;
 
         //clamp to lane by +/- 0.01 margin which means 0.02 space to move 
-        if (!laneChangingEnabled)
+        if (!laneChangingEnabled) // if i'm changing lanes i will not be clamped
             ai.transform.position = new Vector3(Mathf.Clamp(ai.transform.position.x, lanePos - .01f, lanePos + .01f), ai.transform.position.y, ai.transform.position.z);
     }
 
-    void SpeedManager() {
-        // type 1 will be controlled here 
-        /*ForestLevelSpawner.aiSpeedLevelLimiter = playerController.speed / 3;
-        speed = playerController.speed - ForestLevelSpawner.aiSpeedLevelLimiter;
-        */
-        speed = initSpeed;
+    void AiManager() {
+        if (laneChangingEnabled)
+            speed = otherAiSpeed;
+        else
+            speed = initSpeed;
+
+        if (forwardProxEnabled && forwardProxType == 1) {
+            speed = otherAiSpeed;
+            //LaneChanger();
+        }
     }
 
     int DoubleRaycaster(Vector3 pos, float maxDistance, float halfCarXsize, float halfCarZsize, string axis) { // will return 1 for AI and 2 for anything else and 0 for no collision
@@ -91,24 +98,45 @@ public class AIController : MonoBehaviour {
 
         Debug.DrawRay(ray1.origin, ray1.direction, Color.blue);
         Debug.DrawRay(ray2.origin, ray2.direction, Color.blue);
-
-        if (ray1hit == true && ray2hit == true) { // added verification for both for inc ase ray1 hits player and ray2 hits ai in that case hittype is ai to avoid ai collision problem when changing lanes
-            if (hit1.transform.tag == "AI" || hit1.transform.tag == "AI")
-                return 1;
-            return 2;
-        }
-        else if (ray1hit == true) { 
-            if (hit1.transform.tag == "AI")
-                return 1;
-            return 2; // for player
-        }
-        else if (ray2hit == true) {
-            if (hit2.transform.tag == "AI") 
-                return 1;
-            return 2; // for player
-        }
-        else
-            return 0; // for nothing
+            if (ray1hit == true && ray2hit == true) { // added verification for both for in case ray1 hits player and ray2 hits ai in that case hittype is ai to avoid ai collision problem when changing lanes
+                if (hit1.transform.tag == "AI" && hit2.transform.tag == "AI") {  // this will solve the issue hitting 2 ais and one of them has higher speed .. so i match it and end up crashing to the second one
+                    if(axis == "z") // checking for axis so that the speed doesn't take another value when prox is other than forward
+                        if (hit1.transform.gameObject.GetComponent<AIController>().speed <= hit2.transform.gameObject.GetComponent<AIController>().speed)
+                            otherAiSpeed = hit1.transform.gameObject.GetComponent<AIController>().speed;
+                        else
+                            otherAiSpeed = hit2.transform.gameObject.GetComponent<AIController>().speed;
+                    return 1;
+                }
+                if (hit1.transform.tag == "AI") {
+                    if (axis == "z")
+                        otherAiSpeed = hit1.transform.gameObject.GetComponent<AIController>().speed; // i will get the speed of the ai in fornt of me so that i can match it and not crash into him
+                    return 1;
+                }
+                if (hit2.transform.tag == "AI") {
+                    if (axis == "z")
+                        otherAiSpeed = hit2.transform.gameObject.GetComponent<AIController>().speed;
+                    return 1;
+                }
+                return 2;
+            }
+            else if (ray1hit == true) {
+                if (hit1.transform.tag == "AI") {
+                    if (axis == "z")
+                        otherAiSpeed = hit1.transform.gameObject.GetComponent<AIController>().speed;
+                    return 1;
+                }
+                return 2; // for player
+            }
+            else if (ray2hit == true) {
+                if (hit2.transform.tag == "AI") {
+                    if (axis == "z")
+                        otherAiSpeed = hit2.transform.gameObject.GetComponent<AIController>().speed;
+                    return 1;
+                }
+                return 2; // for player
+            }
+            else
+                return 0; // for nothing
         //will check ray 1 first if it hits it will check the RaycastHit var for the tag .. else it will do the same for ray2 .. if not it will return 0 for no RaycastHit 
     }
 

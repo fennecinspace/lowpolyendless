@@ -5,18 +5,23 @@ using UnityEngine;
 public class CollisionManager : MonoBehaviour {
     public bool isColliding = false;
     public bool? colliderType = null;
+    public GameObject objectCollidedWith = null;
 
     void OnCollisionEnter(Collision col) {
         isColliding = true;
-        if (col.gameObject.tag == "LoadedTerrain")
+        if (col.gameObject.tag == "LoadedTerrain") //false for terrain
             colliderType = false;
-        else
+        else {// true for AI or other objects
+            objectCollidedWith = col.transform.gameObject;
             colliderType = true;
+        }
+
     }
 
     void OnCollisionExit(Collision col) {
         isColliding = false;
         colliderType = null;
+        objectCollidedWith = null;
     }
 
     public void CollisionDetection() {
