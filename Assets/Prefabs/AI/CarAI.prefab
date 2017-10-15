@@ -477,8 +477,8 @@ MonoBehaviour:
   speed: 0
   initSpeed: 0
   aiType: 0
-  halfCarXsize: 0.68
-  halfCarZsize: 1.545
+  halfCarXsize: 0
+  halfCarZsize: 0
   forwardProxEnabled: 0
   backProxEnabled: 0
   leftProxEnabled: 0

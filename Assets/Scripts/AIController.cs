@@ -15,8 +15,8 @@ public class AIController : MonoBehaviour {
     public int aiType; // 3 types
     
     [Header("Car XZ Dimensions")] // for raycasting
-    public float halfCarXsize = 0.68f; 
-    public float halfCarZsize = 1.545f;
+    public float halfCarXsize; //0.68f
+    public float halfCarZsize; //1.545f
     
     [Header("Proximity Checker Info")] // to check for close objects
     public bool forwardProxEnabled;
@@ -31,8 +31,10 @@ public class AIController : MonoBehaviour {
         ai = gameObject.GetComponent<Rigidbody>();
         lanePos = ai.transform.position.x;
         otherAiSpeed = initSpeed;
+        GetHalfSize();
         AiType();
         InitSpeedSetter();
+        Debug.Log(halfCarXsize+" and "+halfCarZsize);
     }
 
     void Update() {
@@ -174,6 +176,12 @@ public class AIController : MonoBehaviour {
         else // 61 % chance
             aiType = 1; // type 1
     }
+
+    void GetHalfSize(){
+        halfCarXsize = ai.transform.GetChild(0).GetComponent<MeshRenderer>().bounds.size.x / 2f - 0.055f;
+        halfCarZsize = ai.transform.GetChild(0).GetComponent<MeshRenderer>().bounds.size.z / 2f - 0.055f;
+    }
+    
 }
 
 /*
