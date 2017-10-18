@@ -6,6 +6,7 @@ public class AIController : MonoBehaviour {
     [HideInInspector]
     public GroundPlayerController playerController;
     private Rigidbody ai;
+    private Transform Wheels;
     private float lanePos; // this will be used to clamp me into my lane .. and i will unclamp when i try to change lanes
 
     public float speed; // this is my realtime speed
@@ -29,6 +30,7 @@ public class AIController : MonoBehaviour {
 
     void Start() {
         ai = gameObject.GetComponent<Rigidbody>();
+        Wheels = transform.GetChild(1);
         lanePos = ai.transform.position.x;
         otherAiSpeed = initSpeed;
         GetHalfSize();
@@ -44,6 +46,7 @@ public class AIController : MonoBehaviour {
     void FixedUpdate() {
         AiManager();
         AiMover();
+        MeshUpdater();
     }
 
     void AiMover() {
@@ -66,6 +69,28 @@ public class AIController : MonoBehaviour {
             speed = otherAiSpeed;
             //LaneChanger();
         }
+    }
+
+    void MeshUpdater() {
+        //Rotating the Wheels in relation with speed
+        for (int i = 0 ; i < 4 ; i++)
+            Wheels.GetChild(i).Rotate(Time.deltaTime * speed * 3, 0, 0);
+        /*
+        if (laneChangingEnabled && something about lanePose and new lanePose){
+            if(something about bigger lane pos than original)
+
+            else //something about smaller lane pos than original
+
+        }
+        else { // when the body is idle
+            this.gameObject.transform.GetChild(0).localRotation = 
+                Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(- 0.001f * speed, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+            Player.transform.rotation = 
+                Quaternion.Lerp(Player.transform.rotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+            for (int i = 0; i < 2; i++)
+                Wheels.GetChild(i).localRotation =
+                    Quaternion.Lerp(Wheels.GetChild(i).localRotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+        }*/
     }
 
     int DoubleRaycaster(Vector3 pos, float maxDistance, float halfCarXsize, float halfCarZsize, string axis) { // will return 1 for AI and 2 for anything else and 0 for no collision
