@@ -9,7 +9,7 @@ public class AIController : MonoBehaviour {
     private Transform Wheels;
     private float lanePos; // this will be used to clamp me into my lane .. and i will unclamp when i try to change lanes
     //Mesh Properties
-    private float meshRotationSpeed = 10f;
+    private float meshRotationSpeed = 5f;
     private float wheelRotationDegree = 25f;
     //Speed
     public float speed;
@@ -26,9 +26,9 @@ public class AIController : MonoBehaviour {
     public bool forwardProxEnabled;
     public bool backProxEnabled, leftProxEnabled, rightProxEnabled ,forwardRightEnabled,forwardLeftEnabled,backRightEnabled, backLeftEnabled;
     public int forwardProxType, backProxType, leftProxType, rightProxType ,forwardRightProxType,forwardLeftProxType,backRightProxType,backLeftProxType;
-    private float otherAiSpeed; // this will contain the speed of what ever ai is in front of me 
     private RaycastHit hitfr,hitbr,hitfl,hitbl;
-    private bool canGoFr = false, canGoFl = false, canGoBr = false, canGoBl = false;
+    private float otherAiSpeed; // this will contain the speed of what ever ai is in front of me 
+
 
     [Header("Lane Changing Info")]
     public int currentLane; // lanes are .0.3.1.2.
@@ -332,49 +332,49 @@ public class AIController : MonoBehaviour {
                 // this will rotate the body to the right (previous value was  x : -1.449f and z : 2.759f)
                 if (playerController.IsBraking() && speed > brakingSpeedLimit) // when breaking lean forward while turning right
                     this.gameObject.transform.GetChild(0).localRotation =
-                        Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(2.214f, 0.122f, 1.5f), Time.deltaTime * meshRotationSpeed);
+                        Quaternion.Slerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(2.214f, 0.122f, 1.5f), Time.deltaTime * meshRotationSpeed);
                 else // this will just turn right
                     this.gameObject.transform.GetChild(0).localRotation =
-                        Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(0f, 0.122f, 1.5f), Time.deltaTime * meshRotationSpeed);
+                        Quaternion.Slerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(0f, 0.122f, 1.5f), Time.deltaTime * meshRotationSpeed);
                 // this will rotate the entire car to the right
                 ai.transform.rotation =
-                    Quaternion.Lerp(ai.transform.rotation, Quaternion.Euler(0f, 3f, 0f), Time.deltaTime * meshRotationSpeed);
+                    Quaternion.Slerp(ai.transform.rotation, Quaternion.Euler(0f, 3f, 0f), Time.deltaTime * meshRotationSpeed);
                 // this will rotate the wheels to the right
                 for (int i = 0; i < 2; i++)
                     Wheels.GetChild(i).localRotation =
-                        Quaternion.Lerp(Wheels.GetChild(i).localRotation, Quaternion.Euler(0f, wheelRotationDegree, 0f), Time.deltaTime * meshRotationSpeed);
+                        Quaternion.Slerp(Wheels.GetChild(i).localRotation, Quaternion.Euler(0f, wheelRotationDegree, 0f), Time.deltaTime * meshRotationSpeed);
             }
             else if (goLaneLeft) {
                 // this will rotate the body to the left (previous value was  x : -1.449f and z : -2.759f)
                 if (playerController.IsBraking() && speed > brakingSpeedLimit) // when breaking lean forward while turning left
                     this.gameObject.transform.GetChild(0).localRotation =
-                        Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(2.214f, 0.122f, -1.5f), Time.deltaTime * meshRotationSpeed);
+                        Quaternion.Slerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(2.214f, 0.122f, -1.5f), Time.deltaTime * meshRotationSpeed);
                 else // this will just turn left
                     this.gameObject.transform.GetChild(0).localRotation =
-                        Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(0f, 0.122f, -1.5f), Time.deltaTime * meshRotationSpeed);
+                        Quaternion.Slerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(0f, 0.122f, -1.5f), Time.deltaTime * meshRotationSpeed);
                 // this will rotate the entire car to the left
                 ai.transform.rotation =
-                    Quaternion.Lerp(ai.transform.rotation, Quaternion.Euler(0f, -3f, 0f), Time.deltaTime * meshRotationSpeed);
+                    Quaternion.Slerp(ai.transform.rotation, Quaternion.Euler(0f, -3f, 0f), Time.deltaTime * meshRotationSpeed);
                 // this will rotate the wheels to the left
                 for (int i = 0; i < 2; i++)
                     Wheels.GetChild(i).localRotation =
-                        Quaternion.Lerp(Wheels.GetChild(i).localRotation, Quaternion.Euler(0f, -wheelRotationDegree, 0f), Time.deltaTime * meshRotationSpeed);
+                        Quaternion.Slerp(Wheels.GetChild(i).localRotation, Quaternion.Euler(0f, -wheelRotationDegree, 0f), Time.deltaTime * meshRotationSpeed);
             }
         }
         else { // when the body is idle
             if (playerController.IsBraking() && speed > brakingSpeedLimit) // will get car to lean forward when breaking
                 this.gameObject.transform.GetChild(0).localRotation =
-                    Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(2.214f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+                    Quaternion.Slerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(2.214f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
             else // will get car body to go slightly up as speed increases
                 this.gameObject.transform.GetChild(0).localRotation =
-                    Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(-0.001f * speed, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+                    Quaternion.Slerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(-0.001f * speed, 0f, 0f), Time.deltaTime * meshRotationSpeed);
             //this will set the entire car to idle 
             ai.transform.rotation =
-                Quaternion.Lerp(ai.transform.rotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+                Quaternion.Slerp(ai.transform.rotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
             // this will set the wheels to idle
             for (int i = 0; i < 2; i++)
                 Wheels.GetChild(i).localRotation =
-                    Quaternion.Lerp(Wheels.GetChild(i).localRotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+                    Quaternion.Slerp(Wheels.GetChild(i).localRotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
         }
     }
 }
@@ -402,6 +402,7 @@ public class AIController : MonoBehaviour {
     } */
 
     /*
+        private RaycastHit hitfr,hitbr,hitfl,hitbl;
         bool EmptyLane(string axis){ // will check for frant's and back's lefts and rights to make the lanechanging more realistic 
         if (axis == "r"){
             if (hitfr.transform != null){
@@ -445,3 +446,4 @@ public class AIController : MonoBehaviour {
         }
     }
      */
+
