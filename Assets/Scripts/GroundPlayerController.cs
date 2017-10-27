@@ -48,8 +48,13 @@ public class GroundPlayerController : MonoBehaviour {
         if (Input.GetButton("Horizontal") && CollisionChecker.colliderType != false ) {
             if (Input.GetAxis("Horizontal") > 0) {
                 // this will rotate the body to the right (previous value was  x : -1.449f and z : 2.759f)
-                this.gameObject.transform.GetChild(0).localRotation = 
-                    Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(0f, 0.122f, 1.5f), Time.deltaTime * meshRotationSpeed);
+                if (IsBraking() && speed > 500) // when breaking lean forward while turning right
+                    this.gameObject.transform.GetChild(0).localRotation = 
+                        Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(2.214f, 0.122f, 1.5f), Time.deltaTime * meshRotationSpeed);
+                else // this will just turn right
+                    this.gameObject.transform.GetChild(0).localRotation =
+                        Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(0f, 0.122f, 1.5f), Time.deltaTime * meshRotationSpeed);
+                // this will rotate the entire car to the right
                 Player.transform.rotation = 
                     Quaternion.Lerp(Player.transform.rotation, Quaternion.Euler(0f, 3f, 0f), Time.deltaTime * meshRotationSpeed);
                 // this will rotate the wheels to the right
@@ -59,8 +64,13 @@ public class GroundPlayerController : MonoBehaviour {
             }
             else if (Input.GetAxis("Horizontal") < 0) {
                 // this will rotate the body to the left (previous value was  x : -1.449f and z : -2.759f)
-                this.gameObject.transform.GetChild(0).localRotation = 
-                    Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(0f, 0.122f, -1.5f), Time.deltaTime * meshRotationSpeed);
+                if (IsBraking() && speed > 500) // when breaking lean forward while turning left
+                    this.gameObject.transform.GetChild(0).localRotation = 
+                        Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(2.214f, 0.122f, -1.5f), Time.deltaTime * meshRotationSpeed);
+                else // this will just turn left
+                    this.gameObject.transform.GetChild(0).localRotation =
+                        Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(0f, 0.122f, -1.5f), Time.deltaTime * meshRotationSpeed);
+                // this will rotate the entire car to the left
                 Player.transform.rotation = 
                     Quaternion.Lerp(Player.transform.rotation, Quaternion.Euler(0f, -3f, 0f), Time.deltaTime * meshRotationSpeed);
                 // this will rotate the wheels to the left
@@ -68,13 +78,18 @@ public class GroundPlayerController : MonoBehaviour {
                     Wheels.GetChild(i).localRotation =
                         Quaternion.Lerp(Wheels.GetChild(i).localRotation, Quaternion.Euler(0f, -wheelRotationDegree, 0f), Time.deltaTime * meshRotationSpeed);
             }
-
         }
         else { // when the body is idle
-            this.gameObject.transform.GetChild(0).localRotation = 
-                Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(- 0.001f * speed, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+            if (IsBraking() && speed > 500) // will get car to lean forward when breaking
+                this.gameObject.transform.GetChild(0).localRotation = 
+                    Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(2.214f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+            else // will get car body to go slightly up as speed increases
+                this.gameObject.transform.GetChild(0).localRotation =
+                    Quaternion.Lerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(-0.001f * speed, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+            //this will set the entire cat to idle 
             Player.transform.rotation = 
                 Quaternion.Lerp(Player.transform.rotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+            // this will set the wheels to idle
             for (int i = 0; i < 2; i++)
                 Wheels.GetChild(i).localRotation =
                     Quaternion.Lerp(Wheels.GetChild(i).localRotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
@@ -88,19 +103,28 @@ public class GroundPlayerController : MonoBehaviour {
         if (CollisionChecker.isColliding == false) { // when no collision is happening 
             if (speed < 1500 && speed >= 800)  // will increase speed by time 
                 speed += Time.deltaTime * 50;
-            else if (speed < 800) // will increase speed eapidly when starting under 800
+            else if (speed < 800) // will increase speed rapidly when starting under 800
                 speed += Time.deltaTime * 200;
         }
         else { // when colliding
             if (CollisionChecker.colliderType == false && speed > 500) // will decrease speed when coliding with boundries
                 speed -= Time.deltaTime * 200;
-            if (CollisionChecker.colliderType == true && CollisionChecker.objectCollidedWith.tag == "AI" && CollisionChecker.objectCollidedWith.GetComponent<AIController>().backProxType == 2 && speed < 1200)
+            if (CollisionChecker.colliderType == true && CollisionChecker.objectCollidedWith.tag == "AI" && CollisionChecker.objectCollidedWith.GetComponent<AIController>().backProxType == 2)
                 // added the backProxType == 2 condition so that the player gets the ai speed only when colliding from the back and not from the sides
                 speed = CollisionChecker.objectCollidedWith.GetComponent<AIController>().speed; // in case of collision with ai at low speed player will gain that ai's speed
         }
+
+        if (IsBraking() && speed > 500) {
+            speed -= 10;
+        }
     }
 
-
+    public bool IsBraking() {
+        if (Input.GetKey(KeyCode.Space) == true)
+            return true;
+        else
+            return false;
+    }
     /*
     add breaks and acceleration inputs.. with mesh update for brake
     .. and maybe for acceleration not sure .. 

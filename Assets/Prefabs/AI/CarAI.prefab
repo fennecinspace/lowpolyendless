@@ -487,4 +487,8 @@ MonoBehaviour:
   backProxType: 0
   leftProxType: 0
   rightProxType: 0
+  currentLane: 0
+  nextLane: 0
   laneChangingEnabled: 0
+  goLaneRight: 0
+  goLaneLeft: 0

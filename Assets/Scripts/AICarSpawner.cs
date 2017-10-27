@@ -11,7 +11,7 @@ public class AICarSpawner : MonoBehaviour {
     public Vector3 boxcastSize = new Vector3(1.2f, 0.9f, 2.65f);
     private GroundPlayerController playerController; // the player script will be used to get info like speed
     private Transform playerTransform; // this will be used to get the pos for the car to instantiate the ai enemies
-    public float[] possiblePosesX = new float[4] { -4.45f, 1.50f, 4.45f, -1.50f };
+    public float[] possiblePosesX = new float[4] { -4.4f, -1.5f, 1.5f, 4.4f };
     private Vector3 furthestCarPos;
 
     void Start() {
@@ -37,7 +37,7 @@ public class AICarSpawner : MonoBehaviour {
             if(aiOnScreen == 0)  
                 aiPos.z = furthestCarPos.z + Random.Range(90f, 100f); // will spawn the first ai really far for higer go 160/200
             else
-                aiPos.z = furthestCarPos.z + Random.Range(4f, 7f); // will assign the spawing Z-Pos using the pos of the furthest car away and add to it between 10 and 15 units
+                aiPos.z = furthestCarPos.z + Random.Range(6f, 12f); // will assign the spawing Z-Pos using the pos of the furthest car away and add to it between 10 and 15 units
             if (!VerifyEmptyBoxSpace(aiPos)) {
                 existantAis[aiOnScreen] = Instantiate(aiMesh[0], aiPos, aiMesh[0].transform.rotation); // will instantiate the AI
                 existantAis[aiOnScreen].GetComponent<AIController>().playerController = playerController;
