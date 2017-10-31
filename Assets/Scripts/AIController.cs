@@ -11,12 +11,11 @@ public class AIController : MonoBehaviour {
     //Mesh Properties
     private float meshRotationSpeed = 5f;
     private float wheelRotationDegree = 25f;
-    //Speed
+
+    [Header("Speed Settings")]
+    public float initSpeed; // the ai initiated speed
     public float speed;
     public float brakingSpeedLimit;
-    [Header("Initial Info")]
-    public float initSpeed; // the ai initiated speed
-    public int aiType; // 3 types
     
     [Header("Car XZ Dimensions")] // for raycasting
     public float halfCarXsize; //0.68f
@@ -26,7 +25,6 @@ public class AIController : MonoBehaviour {
     public bool forwardProxEnabled;
     public bool backProxEnabled, leftProxEnabled, rightProxEnabled ,forwardRightEnabled,forwardLeftEnabled,backRightEnabled, backLeftEnabled;
     public int forwardProxType, backProxType, leftProxType, rightProxType ,forwardRightProxType,forwardLeftProxType,backRightProxType,backLeftProxType;
-    private RaycastHit hitfr,hitbr,hitfl,hitbl;
     private float otherAiSpeed; // this will contain the speed of what ever ai is in front of me 
 
 
@@ -45,7 +43,6 @@ public class AIController : MonoBehaviour {
         InitNextLaneSetter(); // initial next lane value is the same as the lane i'm spawned in
         InitSpeedSetter(); // will set the initial speed
         GetHalfSize(); // will get half of my mesh size in X and Z axis for the raycasting later
-        AiTypeSetter(); // will give the ai 1 of 3 types
         currentLane = nextLane; // setting the initial next lane as my current lane
         otherAiSpeed = initSpeed; // setting the otherAiSpeed as my speed for the initial value
         brakingSpeedLimit = (initSpeed == 500)? 500 : Random.Range(600,700); // seting the speed the ai stops breaking at when the player is breaking
@@ -67,7 +64,6 @@ public class AIController : MonoBehaviour {
     void AiMover() {
         Vector3 mover = new Vector3(0, 0, 1);
         mover.z *= speed;
-        mover.x *= speed;
         ai.velocity = mover * Time.deltaTime;
         //clamp to lane by +/- 0.01 margin which means 0.02 space to move  
         if (!laneChangingEnabled) // if i'm changing lanes i will not be clamped
@@ -76,30 +72,30 @@ public class AIController : MonoBehaviour {
 
     void LaneChanger() {
         if (laneChangingEnabled) {
-            if (goLaneRight)
+            if (goLaneRight) // when going right add 0.025f everyframe
                 ai.transform.position = new Vector3(ai.transform.position.x + 0.025f, ai.transform.position.y, ai.transform.position.z);
-            if (goLaneLeft)
+            if (goLaneLeft) // when going left deducte 0.025f everyframe
                 ai.transform.position = new Vector3(ai.transform.position.x - 0.025f, ai.transform.position.y, ai.transform.position.z);
         }
     }
 
     void LaneChangingManager() {
-        if (nextLane == currentLane)
+        if (nextLane == currentLane) // if the current lane is the same as the next lane var then no changing in lanse is needed
             laneChangingEnabled = false;
         else
             laneChangingEnabled = true;
 
-        if (forwardProxEnabled && !laneChangingEnabled) {
+        if (forwardProxEnabled && !laneChangingEnabled) { // if no changing lane is being done check if we need to enable one by checking fornt raycast
             if (rightProxType != 1 && leftProxType != 1 && currentLane > 0 && currentLane < 3 && !frontIsChangingLane) {
-                if (Random.Range(0, 2) == 0) {
+                if (Random.Range(0, 2) == 0) { // 50 % chance going right 
                     if (!forwardRightEnabled && !backRightEnabled) {
-                        nextLane = currentLane + 1;
+                        nextLane = currentLane + 1; // the next lane becomes diffrent which meand the changing in lane will be enbaled and the lane changer functin will check for right or left
                         goLaneRight = true;
                         goLaneLeft = false;
                     }
                 }
                 else {
-                    if (!forwardLeftEnabled && !backLeftEnabled) {
+                    if (!forwardLeftEnabled && !backLeftEnabled) { // 50 % chance going left 
                         nextLane = currentLane - 1;
                         goLaneRight = false;
                         goLaneLeft = true;
@@ -123,7 +119,7 @@ public class AIController : MonoBehaviour {
             }
         }
 
-        if (!laneChangingEnabled) {
+        if (!laneChangingEnabled) { // when the changing in lane is not enabled the goLaneRight && goLaneLeft will be false so that the mesh updater does the idle animation
             goLaneRight = false;
             goLaneLeft = false;
             return;
@@ -231,8 +227,9 @@ public class AIController : MonoBehaviour {
         //will check ray 1 first if it hits it will check the RaycastHit var for the tag .. else it will do the same for ray2 .. if not it will return 0 for no RaycastHit 
     }
 
-    int SideRaycaster(Vector3 pos, float maxDistance, float halfCarXsize, float halfCarZsize, string axis, out RaycastHit hit) { 
+    int SideRaycaster(Vector3 pos, float maxDistance, float halfCarXsize, float halfCarZsize, string axis) { // return same asDoubleRaycaster
         Ray ray;
+        RaycastHit hit;
         bool rayhit;
 
         if (axis == "fr")
@@ -253,22 +250,19 @@ public class AIController : MonoBehaviour {
             else // if it hit player then return 2 
                 return 2;
         }
-        else {
-            hit = new RaycastHit();
-            return 0; // 0 for nothing
-        }
+        else return 0; // 0 for nothing
     }
 
-    void ProximityChecker() {
+    void ProximityChecker() { // this will call raycasting functions and check for close by objects // this will be called in Update
         // 0 for Nothing && 1 for Ai && 2 for Player
         rightProxType = DoubleRaycaster(ai.transform.position, 3.4f, halfCarXsize, halfCarZsize, "x");
         leftProxType = DoubleRaycaster(ai.transform.position, 3.4f, halfCarXsize, halfCarZsize, "-x");
         forwardProxType = DoubleRaycaster(ai.transform.position, 2.0f, halfCarXsize, halfCarZsize, "z");
         backProxType = DoubleRaycaster(ai.transform.position, 2.0f, halfCarXsize, halfCarZsize, "-z");
-        forwardRightProxType = SideRaycaster(ai.transform.position, halfCarZsize * 4f, halfCarXsize, halfCarZsize, "fr", out hitfr); // i used halfCarZsize * 5f for the max distance
-        backRightProxType = SideRaycaster(ai.transform.position, halfCarZsize * 4f, halfCarXsize, halfCarZsize, "br", out hitbr);    // because i need to check if there is a car
-        forwardLeftProxType = SideRaycaster(ai.transform.position, halfCarZsize * 4f, halfCarXsize, halfCarZsize, "fl", out hitfl); // by more than 1 car unit + the space between them
-        backLeftProxType = SideRaycaster(ai.transform.position, halfCarZsize * 4f, halfCarXsize, halfCarZsize, "bl", out hitbl);    // so that i garanty that i don't change the lane and get stuck
+        forwardRightProxType = SideRaycaster(ai.transform.position, halfCarZsize * 4f, halfCarXsize, halfCarZsize, "fr"); // i used halfCarZsize * 5f for the max distance
+        backRightProxType = SideRaycaster(ai.transform.position, halfCarZsize * 4f, halfCarXsize, halfCarZsize, "br");    // because i need to check if there is a car
+        forwardLeftProxType = SideRaycaster(ai.transform.position, halfCarZsize * 4f, halfCarXsize, halfCarZsize, "fl"); // by more than 1 car unit + the space between them
+        backLeftProxType = SideRaycaster(ai.transform.position, halfCarZsize * 4f, halfCarXsize, halfCarZsize, "bl");    // so that i garanty that i don't change the lane and get stuck
         // true for in proximity and false otherwise
         rightProxEnabled = (rightProxType == 0) ? false : true;
         leftProxEnabled = (leftProxType == 0) ? false : true;
@@ -279,50 +273,15 @@ public class AIController : MonoBehaviour {
         forwardLeftEnabled = (forwardLeftProxType == 0) ? false : true;
         backLeftEnabled = (backLeftProxType == 0) ? false : true;
     }
-
-    void InitSpeedSetter() {
-        int probability = Random.Range(1, 100);
-        if (probability > 80)
-            initSpeed = 900;
-        if (probability > 50)
-            initSpeed = 700;
-        else
-            initSpeed = 500; 
-        speed = initSpeed; // so that the moment the ai spawns its speed is its initial Chosen Speed 
-    }
-
-    void AiTypeSetter() {
-        int probability = Random.Range(1, 100);
-        if (probability > 90) // 9% chance
-            aiType = 3; // type 3
-        if (probability > 60) // 29% chance
-            aiType = 2; // type 2
-        else // 61 % chance
-            aiType = 1; // type 1
-    }
-
-    void GetHalfSize(){
-        halfCarXsize = ai.transform.GetChild(0).GetComponent<MeshRenderer>().bounds.size.x / 2f - 0.055f;
-        halfCarZsize = ai.transform.GetChild(0).GetComponent<MeshRenderer>().bounds.size.z / 2f - 0.055f;
-    }
-
-    void CurrentLaneSetter() {
+    
+    void CurrentLaneSetter() { // this function will be called in update and it will set the current lane variable to the next lane variable whe the lane changing is done and that will disable laneChangingEnabled
         for (int i = 0; i < 4; i++)
-            if (Mathf.Floor (ai.transform.position.x * 10) == Mathf.Floor(lanes[i]* 10)) {
+            if (Mathf.Floor (ai.transform.position.x * 10) == Mathf.Floor(lanes[i]* 10)) { // this will change for example ... x.yz == xyj to xy.z == xy.j then to xy == xy .. so that we avoid float point precision problems
                 currentLane = i;
                 break;
             }
         lanePos = lanes[currentLane];
     }
-
-    void InitNextLaneSetter() {
-        for (int i = 0; i < 4; i++)
-            if (Mathf.Floor(ai.transform.position.x) == Mathf.Floor(lanes[i])) {
-                nextLane = i;
-                break;
-            }
-    }
-
     void MeshUpdater() {
         //Rotating the Wheels in relation with speed
         for (int i = 0; i < 4; i++)
@@ -376,6 +335,29 @@ public class AIController : MonoBehaviour {
                 Wheels.GetChild(i).localRotation =
                     Quaternion.Slerp(Wheels.GetChild(i).localRotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
         }
+    }
+    
+    // initial attributes setters
+    void InitSpeedSetter() { // this will set the initSpeed variable
+        int probability = Random.Range(1, 100);
+        if (probability > 80)
+            initSpeed = 900;
+        if (probability > 50)
+            initSpeed = 700;
+        else
+            initSpeed = 500; 
+        speed = initSpeed; // so that the moment the ai spawns its speed is its initial Chosen Speed 
+    }
+    void GetHalfSize(){ // this will set the half car size when spawning the ai mesh .. for the raycasting 
+        halfCarXsize = ai.transform.GetChild(0).GetComponent<MeshRenderer>().bounds.size.x / 2f - 0.055f;
+        halfCarZsize = ai.transform.GetChild(0).GetComponent<MeshRenderer>().bounds.size.z / 2f - 0.055f;
+    }
+    void InitNextLaneSetter() { // this will set the initial next lane which is the same as the initial current lane 
+        for (int i = 0; i < 4; i++)
+            if (Mathf.Floor(ai.transform.position.x) == Mathf.Floor(lanes[i])) {
+                nextLane = i;
+                break;
+            }
     }
 }
 
