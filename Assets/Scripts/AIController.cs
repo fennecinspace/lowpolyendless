@@ -128,9 +128,9 @@ public class AIController : MonoBehaviour {
     }
 
     void SpeedManager() {
-        if (emergencyBrakes)
+        if (emergencyBrakes) // check if i'm too close to another AI so that i use the emergency brakes
             speed = otherAiSpeed;
-        else if (forwardProxEnabled && laneChangingEnabled)
+        else if (forwardProxEnabled && laneChangingEnabled) // check if i'm changing lanes so i can accelerate 
             if (speed > 750)
                 speed = 700; // set speed to 700 when speed is 900 before increasing it when changing lanes
             else 
