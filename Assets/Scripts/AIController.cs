@@ -32,6 +32,7 @@ public class AIController : MonoBehaviour {
     public int currentLane; // lanes are .0.3.1.2.
     public int nextLane;
     public bool laneChangingEnabled = false;
+    public bool emergencyBrakes = false;
     public bool goLaneRight = false, goLaneLeft = false;
     private float[] lanes = new float[4] { -4.45f, -1.50f, 1.50f, 4.45f };
     private bool frontIsChangingLane = false;
@@ -127,7 +128,9 @@ public class AIController : MonoBehaviour {
     }
 
     void SpeedManager() {
-        if (forwardProxEnabled && laneChangingEnabled)
+        if (emergencyBrakes)
+            speed = otherAiSpeed;
+        else if (forwardProxEnabled && laneChangingEnabled)
             if (speed > 750)
                 speed = 700; // set speed to 700 when speed is 900 before increasing it when changing lanes
             else 
@@ -142,6 +145,22 @@ public class AIController : MonoBehaviour {
         if (playerController.IsBraking() && speed > brakingSpeedLimit)  // if player is braking i will brake too
             speed -= 10;
         //speed = 5f;
+    }
+
+    bool FrontRaycaster (Vector3 pos, float maxDistance, float halfCarZsize){
+        Ray ray;
+        RaycastHit hit;
+        bool rayhit;
+
+        ray = new Ray(new Vector3(pos.x , pos.y, pos.z + halfCarZsize), Vector3.forward);
+        rayhit = Physics.Raycast(ray, out hit, maxDistance);
+
+        Debug.DrawRay(ray.origin, ray.direction, Color.green);
+
+        if (rayhit == true)
+            if (hit.transform.tag == "AI")
+                return true;
+        return false;
     }
 
     int DoubleRaycaster(Vector3 pos, float maxDistance, float halfCarXsize, float halfCarZsize, string axis) { // will return 1 for AI and 2 for anything else and 0 for no collision
@@ -275,6 +294,8 @@ public class AIController : MonoBehaviour {
         backRightEnabled = (backRightProxType == 0) ? false : true;
         forwardLeftEnabled = (forwardLeftProxType == 0) ? false : true;
         backLeftEnabled = (backLeftProxType == 0) ? false : true;
+        //Emergency Brakes
+        emergencyBrakes = FrontRaycaster(ai.transform.position, 1.0f, halfCarZsize);
     }
     
     void CurrentLaneSetter() { // this function will be called in update and it will set the current lane variable to the next lane variable whe the lane changing is done and that will disable laneChangingEnabled

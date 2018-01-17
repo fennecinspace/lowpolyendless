@@ -10,7 +10,7 @@ public class GroundPlayerController : MonoBehaviour {
     [Header("Limitations")]
     public float limit = 4.5f;
     public float wheelRotationDegree = 25f;
-    public float meshRotationSpeed = 10f;
+    public float meshRotationSpeed = 20f;
     public float changingLaneSpeed = 700f;
     public float moveForward = 1f, leftAndRight = 1f;
     public float upAndDown = 0.7f;
@@ -82,17 +82,17 @@ public class GroundPlayerController : MonoBehaviour {
         else { // when the body is idle
             if (IsBraking() && speed > 500) // will get car to lean forward when breaking
                 this.gameObject.transform.GetChild(0).localRotation = 
-                    Quaternion.RotateTowards(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(2.214f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+                    Quaternion.RotateTowards(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(2.214f, 0f, 0f), Time.deltaTime * meshRotationSpeed * 2);
             else // will get car body to go slightly up as speed increases
                 this.gameObject.transform.GetChild(0).localRotation =
-                    Quaternion.RotateTowards(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(-0.001f * speed, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+                    Quaternion.RotateTowards(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(-0.001f * speed, 0f, 0f), Time.deltaTime * meshRotationSpeed * 2);
             //this will set the entire cat to idle 
             Player.transform.rotation = 
-                Quaternion.RotateTowards(Player.transform.rotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+                Quaternion.RotateTowards(Player.transform.rotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed * 2);
             // this will set the wheels to idle
             for (int i = 0; i < 2; i++)
                 Wheels.GetChild(i).localRotation =
-                    Quaternion.RotateTowards(Wheels.GetChild(i).localRotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+                    Quaternion.RotateTowards(Wheels.GetChild(i).localRotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed * 2);
         }
         /* Player.transform.rotation will rotate the entire car left and right 
          and gameObject.transform.GetChild(0).localRotation 
