@@ -127,9 +127,12 @@ public class AIController : MonoBehaviour {
     }
 
     void SpeedManager() {
-        if (forwardProxEnabled && forwardProxType == 1) // if ai is in front of me i'll take its speed
-            speed = otherAiSpeed;
-        else if (laneChangingEnabled) // if car is changing lanes
+        if (forwardProxEnabled && laneChangingEnabled)
+            if (speed > 750)
+                speed = 700; // set speed to 700 when speed is 900 before increasing it when changing lanes
+            else 
+                speed += 5; // increase speed when changing lanes
+        else if (forwardProxEnabled && forwardProxType == 1) // if ai is in front of me and i can't change lane i'll take its speed
             speed = otherAiSpeed;
         else if (speed < initSpeed) // if player is done braking and nothing is in front of me i'll increase my speed
             speed += 10;
@@ -257,7 +260,7 @@ public class AIController : MonoBehaviour {
         // 0 for Nothing && 1 for Ai && 2 for Player
         rightProxType = DoubleRaycaster(ai.transform.position, 3.4f, halfCarXsize, halfCarZsize, "x");
         leftProxType = DoubleRaycaster(ai.transform.position, 3.4f, halfCarXsize, halfCarZsize, "-x");
-        forwardProxType = DoubleRaycaster(ai.transform.position, 2.0f, halfCarXsize, halfCarZsize, "z");
+        forwardProxType = DoubleRaycaster(ai.transform.position, 4.0f, halfCarXsize, halfCarZsize, "z"); // gave it 4.0f to allow acceleration when changing lanes without crashing
         backProxType = DoubleRaycaster(ai.transform.position, 2.0f, halfCarXsize, halfCarZsize, "-z");
         forwardRightProxType = SideRaycaster(ai.transform.position, halfCarZsize * 4f, halfCarXsize, halfCarZsize, "fr"); // i used halfCarZsize * 5f for the max distance
         backRightProxType = SideRaycaster(ai.transform.position, halfCarZsize * 4f, halfCarXsize, halfCarZsize, "br");    // because i need to check if there is a car
@@ -286,54 +289,54 @@ public class AIController : MonoBehaviour {
         //Rotating the Wheels in relation with speed
         for (int i = 0; i < 4; i++)
             Wheels.GetChild(i).Rotate(Time.deltaTime * speed * 3, 0, 0);
-        if (laneChangingEnabled) {
+        if (laneChangingEnabled && forwardProxEnabled) {
             if (goLaneRight) {
                 // this will rotate the body to the right (previous value was  x : -1.449f and z : 2.759f)
                 if (playerController.IsBraking() && speed > brakingSpeedLimit) // when breaking lean forward while turning right
                     this.gameObject.transform.GetChild(0).localRotation =
-                        Quaternion.Slerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(2.214f, 0.122f, 1.5f), Time.deltaTime * meshRotationSpeed);
+                        Quaternion.RotateTowards(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(2.214f, 0.122f, 1.5f), Time.deltaTime * meshRotationSpeed);
                 else // this will just turn right
                     this.gameObject.transform.GetChild(0).localRotation =
-                        Quaternion.Slerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(0f, 0.122f, 1.5f), Time.deltaTime * meshRotationSpeed);
+                        Quaternion.RotateTowards(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(0f, 0.122f, 1.5f), Time.deltaTime * meshRotationSpeed);
                 // this will rotate the entire car to the right
                 ai.transform.rotation =
-                    Quaternion.Slerp(ai.transform.rotation, Quaternion.Euler(0f, 3f, 0f), Time.deltaTime * meshRotationSpeed);
+                    Quaternion.RotateTowards(ai.transform.rotation, Quaternion.Euler(0f, 3f, 0f), Time.deltaTime * meshRotationSpeed);
                 // this will rotate the wheels to the right
                 for (int i = 0; i < 2; i++)
                     Wheels.GetChild(i).localRotation =
-                        Quaternion.Slerp(Wheels.GetChild(i).localRotation, Quaternion.Euler(0f, wheelRotationDegree, 0f), Time.deltaTime * meshRotationSpeed);
+                        Quaternion.RotateTowards(Wheels.GetChild(i).localRotation, Quaternion.Euler(0f, wheelRotationDegree, 0f), Time.deltaTime * meshRotationSpeed);
             }
             else if (goLaneLeft) {
                 // this will rotate the body to the left (previous value was  x : -1.449f and z : -2.759f)
                 if (playerController.IsBraking() && speed > brakingSpeedLimit) // when breaking lean forward while turning left
                     this.gameObject.transform.GetChild(0).localRotation =
-                        Quaternion.Slerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(2.214f, 0.122f, -1.5f), Time.deltaTime * meshRotationSpeed);
+                        Quaternion.RotateTowards(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(2.214f, 0.122f, -1.5f), Time.deltaTime * meshRotationSpeed);
                 else // this will just turn left
                     this.gameObject.transform.GetChild(0).localRotation =
-                        Quaternion.Slerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(0f, 0.122f, -1.5f), Time.deltaTime * meshRotationSpeed);
+                        Quaternion.RotateTowards(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(0f, 0.122f, -1.5f), Time.deltaTime * meshRotationSpeed);
                 // this will rotate the entire car to the left
                 ai.transform.rotation =
-                    Quaternion.Slerp(ai.transform.rotation, Quaternion.Euler(0f, -3f, 0f), Time.deltaTime * meshRotationSpeed);
+                    Quaternion.RotateTowards(ai.transform.rotation, Quaternion.Euler(0f, -3f, 0f), Time.deltaTime * meshRotationSpeed);
                 // this will rotate the wheels to the left
                 for (int i = 0; i < 2; i++)
                     Wheels.GetChild(i).localRotation =
-                        Quaternion.Slerp(Wheels.GetChild(i).localRotation, Quaternion.Euler(0f, -wheelRotationDegree, 0f), Time.deltaTime * meshRotationSpeed);
+                        Quaternion.RotateTowards(Wheels.GetChild(i).localRotation, Quaternion.Euler(0f, -wheelRotationDegree, 0f), Time.deltaTime * meshRotationSpeed);
             }
         }
         else { // when the body is idle
             if (playerController.IsBraking() && speed > brakingSpeedLimit) // will get car to lean forward when breaking
                 this.gameObject.transform.GetChild(0).localRotation =
-                    Quaternion.Slerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(2.214f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+                    Quaternion.RotateTowards(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(2.214f, 0f, 0f), Time.deltaTime * meshRotationSpeed * 0.5f);
             else // will get car body to go slightly up as speed increases
                 this.gameObject.transform.GetChild(0).localRotation =
-                    Quaternion.Slerp(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(-0.001f * speed, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+                    Quaternion.RotateTowards(this.gameObject.transform.GetChild(0).localRotation, Quaternion.Euler(-0.001f * speed, 0f, 0f), Time.deltaTime * meshRotationSpeed * 0.5f);
             //this will set the entire car to idle 
             ai.transform.rotation =
-                Quaternion.Slerp(ai.transform.rotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+                Quaternion.RotateTowards(ai.transform.rotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed * 0.5f);
             // this will set the wheels to idle
             for (int i = 0; i < 2; i++)
                 Wheels.GetChild(i).localRotation =
-                    Quaternion.Slerp(Wheels.GetChild(i).localRotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed);
+                    Quaternion.RotateTowards(Wheels.GetChild(i).localRotation, Quaternion.Euler(0f, 0f, 0f), Time.deltaTime * meshRotationSpeed * 0.5f);
         }
     }
     

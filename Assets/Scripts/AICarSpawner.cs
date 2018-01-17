@@ -31,7 +31,8 @@ public class AICarSpawner : MonoBehaviour {
     }
     
     void SpawnAiMesh() {
-        Vector3 aiPos = playerTransform.position;
+        Vector3 aiPos = new Vector3();
+        aiPos.y = 0.7f;
         while (true) {
             aiPos.x = GetRandomPossesX();
             if(aiOnScreen == 0)  
