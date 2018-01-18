@@ -6,12 +6,12 @@ public class GroundPlayerController : MonoBehaviour {
     private Rigidbody Player;
     private Transform Wheels;
     [Header("Data")]
-    public float speed = 800f;
+    public float speed = 400f;
     [Header("Limitations")]
     public float limit = 4.5f;
     public float wheelRotationDegree = 25f;
     public float meshRotationSpeed = 20f;
-    public float changingLaneSpeed = 700f;
+    public float changingLaneSpeed = 500f;
     public float moveForward = 1f, leftAndRight = 1f;
     public float upAndDown = 0.7f;
 
@@ -101,10 +101,10 @@ public class GroundPlayerController : MonoBehaviour {
 
     void SpeedManager() {
         if (CollisionChecker.isColliding == false) { // when no collision is happening 
-            if (speed < 1500 && speed >= 800)  // will increase speed by time 
+            if (speed < 2000 && speed >= 500)  // will increase speed by time 
                 speed += Time.deltaTime * 50;
-            else if (speed < 800) // will increase speed rapidly when starting under 800
-                speed += Time.deltaTime * 200;
+            else if (speed < 500) // will increase speed rapidly when starting under 500
+                speed += Time.deltaTime * 100;
         }
         else { // when colliding
             if (CollisionChecker.colliderType == false && speed > 500) // will decrease speed when coliding with boundries
@@ -114,7 +114,7 @@ public class GroundPlayerController : MonoBehaviour {
                 speed = CollisionChecker.objectCollidedWith.GetComponent<AIController>().speed; // in case of collision with ai at low speed player will gain that ai's speed
         }
 
-        if (IsBraking() && speed > 500) {
+        if (IsBraking() && speed > 400) {
             speed -= 10;
         }
     }
@@ -131,6 +131,5 @@ public class GroundPlayerController : MonoBehaviour {
     maybe just maybe add gear mesh update in certain speeds 
     remember you're already on second gear so add 3 mesh updates for gear if you decide to add them
     add mobile inputs
-    ... 
-     */
+    */
 }

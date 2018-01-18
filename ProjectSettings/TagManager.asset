@@ -8,6 +8,7 @@ TagManager:
   - Undefined
   - LoadedTerrain
   - AI
+  - UIScoreText
   layers:
   - Default
   - TransparentFX

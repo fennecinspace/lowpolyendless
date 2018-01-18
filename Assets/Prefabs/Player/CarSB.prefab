@@ -514,8 +514,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 14.4, y: 1.78, z: 13.99}
-  m_Center: {x: 0, y: -1.35, z: 0}
+  m_Size: {x: 14.4, y: 1.78, z: 19.23}
+  m_Center: {x: 0, y: -1.35, z: 1.1}
 --- !u!114 &114050182152630708
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -547,6 +547,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: 0
+  scoreText: {fileID: 0}
 --- !u!114 &114746019719234744
 MonoBehaviour:
   m_ObjectHideFlags: 1
