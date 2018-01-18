@@ -8,28 +8,28 @@ public class ScoreManager : MonoBehaviour {
 	private int score; // score container
 	private int scoreAddition = 100; // increase the score by this value
 
-	void Start () {
+	void Start() {
 		initScore();
 	}
 
-	void OnTriggerExit(Collider AI){ // gets called when other colliders exit collision with the player's SCORE COLLIDER 
+	void OnTriggerExit(Collider AI) { // gets called when other colliders exit collision with the player's SCORE COLLIDER 
 		if (AI.transform.position.z < gameObject.transform.position.z && AI.gameObject.tag == "AI") // check if player really bypassed the AI
-			 addScore(scoreAddition); // increase score when player bypasses the AI
+			scoreAdderOnOvertake(scoreAddition); // increase score when player bypasses the AI
     }
 
-	private void addScore(int value){
+	private void scoreAdderOnOvertake(int value) {
 		setScore(getScore() + value); // increase the score by "value" amount
 	}
 
-	private void initScore(){
+	private void initScore() {
 		score = 0; // initialize score to 0 on game start
 	}
 
-	public int getScore(){ 
+	public int getScore() { 
 		return score; // score getter
 	}
 
-	private void setScore(int value){
+	private void setScore(int value) {
 		score = value;  // score setter
 	}
 }
