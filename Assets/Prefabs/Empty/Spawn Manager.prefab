@@ -93,8 +93,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terrain: {fileID: 1993774469973922, guid: 487ca5b134ee3af4e8877c3fe9385208, type: 2}
   Parent: {fileID: 0}
-  numberOfStartTiles: 4
-  numberOfTilesOnScreen: 5
+  numberOfStartTiles: 2
+  numberOfTilesOnScreen: 3
   numberOfTrees: 50
   roadSideTreeNumber: 2
   Trees:

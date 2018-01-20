@@ -147,4 +147,3 @@ public class ForestLevelSpawner : MonoBehaviour {
                 Destroy(anObject); // destroys the object 
     }
 }
-

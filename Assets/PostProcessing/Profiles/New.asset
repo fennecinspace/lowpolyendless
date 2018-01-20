@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a3bdb2cd68f901469e7cc149151eb49, type: 3}
-  m_Name: Mohamed
+  m_Name: New
   m_EditorClassIdentifier: 
   debugViews:
     m_Enabled: 1
@@ -25,29 +25,29 @@ MonoBehaviour:
         motionVectorsResolution: 24
         motionVectorsAmplitude: 64
   fog:
-    m_Enabled: 1
+    m_Enabled: 0
     m_Settings:
       excludeSkybox: 1
   antialiasing:
-    m_Enabled: 1
+    m_Enabled: 0
     m_Settings:
       method: 0
       fxaaSettings:
-        preset: 2
+        preset: 0
       taaSettings:
         jitterSpread: 0.75
         sharpen: 0.3
         stationaryBlending: 0.95
         motionBlending: 0.85
   ambientOcclusion:
-    m_Enabled: 0
+    m_Enabled: 1
     m_Settings:
-      intensity: 0
-      radius: 2.75
-      sampleCount: 16
+      intensity: 1
+      radius: 1
+      sampleCount: 3
       downsampling: 0
-      forceForwardCompatibility: 1
-      ambientOnly: 0
+      forceForwardCompatibility: 0
+      ambientOnly: 1
       highPrecision: 0
   screenSpaceReflection:
     m_Enabled: 0
@@ -69,10 +69,10 @@ MonoBehaviour:
       screenEdgeMask:
         intensity: 0.03
   depthOfField:
-    m_Enabled: 1
+    m_Enabled: 0
     m_Settings:
       focusDistance: 8.9
-      aperture: 5.6
+      aperture: 24.3
       focalLength: 63
       useCameraFov: 1
       kernelSize: 0
@@ -100,10 +100,10 @@ MonoBehaviour:
     m_Enabled: 0
     m_Settings:
       bloom:
-        intensity: 3.3
-        threshold: 1.54
-        softKnee: 0.399
-        radius: 3.86
+        intensity: 2.33
+        threshold: 1.28
+        softKnee: 0.801
+        radius: 1
         antiFlicker: 0
       lensDirt:
         texture: {fileID: 0}
@@ -120,7 +120,7 @@ MonoBehaviour:
         neutralWhiteLevel: 5.3
         neutralWhiteClip: 10
       basic:
-        postExposure: 0
+        postExposure: 1
         temperature: 35
         tint: -16
         hueShift: -20
@@ -138,9 +138,9 @@ MonoBehaviour:
           power: {r: 0.9756341, g: 0.9999998, b: 1, a: 0}
           offset: {r: 0.9743159, g: 0.992108, b: 1, a: 0.10958904}
         linear:
-          lift: {r: 1, g: 0.9021958, b: 0.970061, a: 0}
-          gamma: {r: 1, g: 1, b: 1, a: 0}
-          gain: {r: 1, g: 1, b: 1, a: 0}
+          lift: {r: 0.78821725, g: 0.7099854, b: 1, a: 0}
+          gamma: {r: 0.8676377, g: 1, b: 0.7088119, a: 0}
+          gain: {r: 0.5406801, g: 0.61179274, b: 1, a: 0}
       curves:
         master:
           curve:

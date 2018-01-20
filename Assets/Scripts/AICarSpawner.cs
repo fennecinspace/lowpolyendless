@@ -19,15 +19,15 @@ public class AICarSpawner : MonoBehaviour {
         player = GetComponent<PlayerSpawner>().GetPlayer();
         playerController = player.GetComponent<GroundPlayerController>();
         playerTransform = player.GetComponent<Transform>();
-        furthestCarPos = playerTransform.position;
+        furthestCarPos = new Vector3(0,0,0);
     }
 
     void Update() {
         GetFurthestCarPos();
-        if (playerController.speed > 900 && aiOnScreen < aiOnScreenLimit)
+        if (playerController.speed > 600 && aiOnScreen < aiOnScreenLimit){
             SpawnAiMesh();
+        }
         DestroyAiMesh();
-        //Debug.Log(aiMesh[0].transform.GetChild(0).GetComponent<MeshFilter>().sharedMesh.bounds.size * 0.28f);
     }
     
     void SpawnAiMesh() {
@@ -42,7 +42,6 @@ public class AICarSpawner : MonoBehaviour {
             if (!VerifyEmptyBoxSpace(aiPos)) {
                 existantAis[aiOnScreen] = Instantiate(aiMesh[0], aiPos, aiMesh[0].transform.rotation); // will instantiate the AI
                 existantAis[aiOnScreen].GetComponent<AIController>().playerController = playerController;
-                //Debug.Log(furthestCarPos.z);
                 aiOnScreen++;
                 break;
             }
@@ -71,6 +70,8 @@ public class AICarSpawner : MonoBehaviour {
     }
 
     void GetFurthestCarPos() { // this will find the furthest car away and update the furthestCarPos variabale so i can spawn another one 10 to 15 units after it later
+        if (aiOnScreen == 0) // for the first spawned AI 
+            furthestCarPos = playerTransform.position;
         for (int i = 0; i < aiOnScreen; i++)
             if (existantAis[i].transform.position.z > furthestCarPos.z)
                 furthestCarPos.z = existantAis[i].transform.position.z;

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerSpawner : MonoBehaviour {
-    public GameObject[] PlayerMeshes = new GameObject[1];
-    public int meshToInstantiate = 0;
-    public GameObject instantiatedPlayer;
+    [SerializeField]
+    private GameObject[] PlayerMeshes = new GameObject[1];
+    [SerializeField] private int meshToInstantiate = 0;
+    [SerializeField] private GameObject instantiatedPlayer;
 
 	// Use this for initialization
 	void Start () {

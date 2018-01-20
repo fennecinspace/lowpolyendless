@@ -14,7 +14,7 @@ public class AIController : MonoBehaviour {
 
     [Header("Speed Settings")]
     public float initSpeed; // the ai initiated speed
-    public float speed;
+    [SerializeField] private float speed;
     public float brakingSpeedLimit;
     
     [Header("Car XZ Dimensions")] // for raycasting
@@ -306,6 +306,7 @@ public class AIController : MonoBehaviour {
             }
         lanePos = lanes[currentLane];
     }
+
     void MeshUpdater() {
         //Rotating the Wheels in relation with speed
         for (int i = 0; i < 4; i++)
@@ -372,16 +373,22 @@ public class AIController : MonoBehaviour {
             initSpeed = 500; 
         speed = initSpeed; // so that the moment the ai spawns its speed is its initial Chosen Speed 
     }
+    
     void GetHalfSize(){ // this will set the half car size when spawning the ai mesh .. for the raycasting 
         halfCarXsize = ai.transform.GetChild(0).GetComponent<MeshRenderer>().bounds.size.x / 2f - 0.055f;
         halfCarZsize = ai.transform.GetChild(0).GetComponent<MeshRenderer>().bounds.size.z / 2f - 0.055f;
     }
+    
     void InitNextLaneSetter() { // this will set the initial next lane which is the same as the initial current lane 
         for (int i = 0; i < 4; i++)
             if (Mathf.Floor(ai.transform.position.x) == Mathf.Floor(lanes[i])) {
                 nextLane = i;
                 break;
             }
+    }
+
+    public float getSpeed() {
+        return speed;
     }
 }
 
