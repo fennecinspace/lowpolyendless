@@ -24,7 +24,7 @@ public class AICarSpawner : MonoBehaviour {
 
     void Update() {
         GetFurthestCarPos();
-        if (playerController.speed > 600 && aiOnScreen < aiOnScreenLimit){
+        if (playerController.speed > 500 && aiOnScreen < aiOnScreenLimit){
             SpawnAiMesh();
         }
         DestroyAiMesh();
@@ -36,7 +36,7 @@ public class AICarSpawner : MonoBehaviour {
         while (true) {
             aiPos.x = GetRandomPossesX();
             if(aiOnScreen == 0)  
-                aiPos.z = furthestCarPos.z + Random.Range(90f, 100f); // will spawn the first ai really far for higer go 160/200
+                aiPos.z = furthestCarPos.z + Random.Range(50f, 70f); // will spawn the first ai really far for higer go 160/200
             else
                 aiPos.z = furthestCarPos.z + Random.Range(6f, 12f); // will assign the spawing Z-Pos using the pos of the furthest car away and add to it between 10 and 15 units
             if (!VerifyEmptyBoxSpace(aiPos)) {

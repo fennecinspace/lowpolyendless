@@ -8,7 +8,7 @@ public class GroundPlayerController : MonoBehaviour {
     private Transform Wheels;
 
     [Header("Controller Type")]
-    public bool phoneEnabled = false;
+    public bool phoneEnabled = false; // enable before exporting to android
 
     [Header("Data")]
     public float speed = 400f;

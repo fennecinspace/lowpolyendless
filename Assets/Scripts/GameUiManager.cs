@@ -21,6 +21,7 @@ public class GameUiManager : MonoBehaviour {
 	}
 	
 	void Update() {
+		getUIData();
 		UIScoreUpdater();
 		UISpeedUpdater();
 		PauseMenuManager();
