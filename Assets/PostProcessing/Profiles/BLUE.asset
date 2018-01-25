@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a3bdb2cd68f901469e7cc149151eb49, type: 3}
-  m_Name: New
+  m_Name: BLUE
   m_EditorClassIdentifier: 
   debugViews:
     m_Enabled: 1
@@ -139,7 +139,7 @@ MonoBehaviour:
           offset: {r: 0.9743159, g: 0.992108, b: 1, a: 0.10958904}
         linear:
           lift: {r: 0.78821725, g: 0.7099854, b: 1, a: 0}
-          gamma: {r: 0.8676377, g: 1, b: 0.7088119, a: 0}
+          gamma: {r: 0.45148897, g: 0.6234848, b: 1, a: 0}
           gain: {r: 0.5406801, g: 0.61179274, b: 1, a: 0}
       curves:
         master:

@@ -257,24 +257,6 @@ Prefab:
       propertyPath: Parent
       value: 
       objectReference: {fileID: 2074517882}
-    - target: {fileID: 114788276821527470, guid: da08b673c771b3c4c87e8e9192efc40e,
-        type: 2}
-      propertyPath: noFriction
-      value: 
-      objectReference: {fileID: 13400000, guid: 8b6d8db2aea893c488d43c5ec17b36db,
-        type: 2}
-    - target: {fileID: 114196140887552324, guid: da08b673c771b3c4c87e8e9192efc40e,
-        type: 2}
-      propertyPath: PlayerMeshes.Array.data[0]
-      value: 
-      objectReference: {fileID: 1541161076744884, guid: 6530ccb74898d624994478858281ec6b,
-        type: 2}
-    - target: {fileID: 114411569462273126, guid: da08b673c771b3c4c87e8e9192efc40e,
-        type: 2}
-      propertyPath: aiMesh.Array.data[0]
-      value: 
-      objectReference: {fileID: 1156114765532952, guid: 85ef6015d43972f4c935ec6f3c64d15f,
-        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: da08b673c771b3c4c87e8e9192efc40e, type: 2}
   m_IsPrefabParent: 0

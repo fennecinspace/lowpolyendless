@@ -9,6 +9,7 @@ public class GroundPlayerController : MonoBehaviour {
 
     [Header("Controller Type")]
     public bool phoneEnabled = false; // enable before exporting to android
+    public float accelerometerSensitivity = 2f;
 
     [Header("Data")]
     public float speed = 400f;
@@ -52,7 +53,7 @@ public class GroundPlayerController : MonoBehaviour {
         if (!phoneEnabled)
             return Input.GetAxis("Horizontal") * leftAndRight;
         else
-            return Input.acceleration.x * leftAndRight;
+            return Input.acceleration.x * leftAndRight * accelerometerSensitivity;
     }
 
     void MeshUpdater() {

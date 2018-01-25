@@ -54,7 +54,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerMeshes:
-  - {fileID: 1403659074439446, guid: f06761ef0e29af148ad1279aa54e54e6, type: 2}
+  - {fileID: 1541161076744884, guid: 6530ccb74898d624994478858281ec6b, type: 2}
   meshToInstantiate: 0
   instantiatedPlayer: {fileID: 0}
 --- !u!114 &114411569462273126
@@ -70,7 +70,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   aiMesh:
-  - {fileID: 1868926836929206, guid: c7808e7eda4b23746b161dd6463df759, type: 2}
+  - {fileID: 1156114765532952, guid: 85ef6015d43972f4c935ec6f3c64d15f, type: 2}
   aiOnScreen: 0
   aiOnScreenLimit: 15
   existantAis: []
