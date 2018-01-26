@@ -117,8 +117,9 @@ public class GroundPlayerController : MonoBehaviour {
         else { // if using Phone
             // saving the accelerometer to use it to modify mesh position, the more the user tilts the more the mesh rotates
             float accelerometer =  4 * Input.acceleration.x;
+            Debug.Log(accelerometer);
             // Updating the Body to move left and right or stay idle
-            if (CollisionChecker.colliderType != 1 && this.transform.position.x < limit && this.transform.position.x > -limit){
+            if (CollisionChecker.colliderType != 1 && this.transform.position.x < limit && this.transform.position.x > -limit && (accelerometer > 0.2 || accelerometer < -0.2)){
                 // this will rotate the body to the right (previous value was  x : -1.449f and z : 2.759f)
                 if (IsBraking() && speed > 500) // when breaking lean forward while turning right
                     this.gameObject.transform.GetChild(0).localRotation = 
@@ -132,7 +133,8 @@ public class GroundPlayerController : MonoBehaviour {
                 // this will rotate the wheels to the right
                 for (int i = 0; i < 2; i++)
                     Wheels.GetChild(i).localRotation =
-                        Quaternion.Slerp(Wheels.GetChild(i).localRotation, Quaternion.Euler(0f, wheelRotationDegree * accelerometer, 0f), Time.deltaTime * meshRotationSpeed);        
+                        Quaternion.Slerp(Wheels.GetChild(i).localRotation, Quaternion.Euler(0f, wheelRotationDegree * accelerometer / 2 , 0f), Time.deltaTime * meshRotationSpeed);
+                        //devided by 2 because wheels turn too much since accelerometer(phoneEnabled) can bypass 1 and input-axis(phoneDisabled) can't
             }
             else {// when the body is idle
                 if (IsBraking() && speed > 500) // will get car to lean forward when breaking
