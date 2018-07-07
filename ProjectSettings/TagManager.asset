@@ -3,12 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Tree
-  - Undefined
-  - LoadedTerrain
-  - AI
-  - UIScoreText
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -18,9 +13,9 @@ TagManager:
   - UI
   - 
   - 
-  - Trees
-  - AI SCORE COLLIDER
-  - AI
+  - 
+  - 
+  - 
   - 
   - 
   - 
